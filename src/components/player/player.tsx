@@ -1,9 +1,9 @@
 const Player = () => {
-    return (
-      <div>
-        {/* Тут будет контент для страницы Player */}
-      </div>
-    );
-  };
-  
-  export default Player;
+  return (
+    <div>
+      {} // TODO Тут будет контент для страницы Player
+    </div>
+  );
+};
+
+export default Player;

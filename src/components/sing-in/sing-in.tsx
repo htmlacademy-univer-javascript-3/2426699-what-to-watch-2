@@ -1,10 +1,9 @@
 const SignIn = () => {
-    return (
-      <div>
-        {/* Здесь можете добавить контент для страницы SignIn */}
-      </div>
-    );
-  };
-  
-  export default SignIn;
-  
+  return (
+    <div>
+      {} // TODO Здесь можете добавить контент для страницы SignIn
+    </div>
+  );
+};
+
+export default SignIn;

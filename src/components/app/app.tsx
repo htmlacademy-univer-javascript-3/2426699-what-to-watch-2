@@ -7,19 +7,16 @@ import MoviePage from '../movie-page/movie-page';
 import MoviePageReviews from '../movie-page-reviews/movie-page-reviews';
 import Player from '../player/player';
 import NotFoundPage from '../not-found/not-found';
+import { Film } from '../../mocks/films';
 
 interface AppProps {
-  mainPageData: {
-    title: string;
-    genre: string;
-    releaseDate: string;
-  };
+  films: Film[];
 }
 
 const App: React.FC<AppProps> = (props) => {
-  const { mainPageData } = props;
+  const { films } = props;
 
-  
+
   return (
     <Router>
       <Routes>
@@ -27,9 +24,7 @@ const App: React.FC<AppProps> = (props) => {
           path="/"
           element={
             <MainPage
-              title={mainPageData.title}
-              genre={mainPageData.genre}
-              releaseDate={mainPageData.releaseDate}
+              films={films}
             />
           }
         />
@@ -38,7 +33,7 @@ const App: React.FC<AppProps> = (props) => {
         <Route path="/films/:id" element={<MoviePage />} />
         <Route path="/films/:id/review" element={<MoviePageReviews />} />
         <Route path="/player/:id" element={<Player />} />
-        <Route path="*" element={<NotFoundPage />} /> 
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
