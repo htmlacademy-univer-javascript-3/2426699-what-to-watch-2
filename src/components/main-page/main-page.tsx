@@ -1,13 +1,15 @@
 import { FC } from 'react';
 import FilmList from '../film-list/film-list';
 import { Film } from '../../mocks/films';
+import { MainFilm } from '../../mocks/mainFilm';{}
 
 interface MainPageProps {
   films: Film[];
+  mainFilm: MainFilm[];
 }
 // 
 const MainPage: FC<MainPageProps> = (props) => {
-  const { films } = props;
+  const { films, mainFilm } = props;
 
   return (
     <>
@@ -45,7 +47,7 @@ const MainPage: FC<MainPageProps> = (props) => {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src={films[0].poster} alt={films[0].title} width="218" height="327" />
+              <img src={mainFilm[0].poster} alt={mainFilm[0].title} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">

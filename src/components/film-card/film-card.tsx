@@ -1,8 +1,10 @@
 import React from 'react';
 import { Film } from '../../mocks/films';
+import { Link } from 'react-router-dom';
+
 
 interface FilmCardProps {
-  film: Film; // Принимаем данные о фильме через props
+  film: Film;
 }
 
 const FilmCard: React.FC<FilmCardProps> = ({ film }) => {
@@ -13,7 +15,9 @@ const FilmCard: React.FC<FilmCardProps> = ({ film }) => {
           <img src={film.poster} alt={film.title} width="280" height="175" />
         </div>
         <h3 className="small-film-card__title">
-          <a className="small-film-card__link" href={`/films/${film.id}`}>{film.title}</a>
+          <Link to={`/films/${film.id}`} className="small-film-card__link"> 
+            {film.title}
+          </Link>
         </h3>
       </article>
     </>
