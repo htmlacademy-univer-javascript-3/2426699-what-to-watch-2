@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import React from 'react';
 import FilmCard from '../film-card/film-card';
 import { Film } from '../../mocks/films';
 import { Link } from 'react-router-dom';
@@ -39,7 +38,7 @@ const MyList: FC<MyListProps> = (props) => {
                 <h2 className="catalog__title visually-hidden">Catalog</h2>
                 <div className="catalog__films-list">
                     {films.map((film) => (
-                        <FilmCard key={film.id} film={film} />
+                        <FilmCard key={film.id} films={film} />
                     ))}
                 </div>
             </section>

@@ -1,5 +1,3 @@
-import FilmCard from "../film-card/film-card";
-
 
 const MoviePage = () => {
   return (

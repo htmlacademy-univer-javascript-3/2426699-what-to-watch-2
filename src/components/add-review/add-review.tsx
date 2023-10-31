@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import films from "../../mocks/films";
 import { Film } from "../../mocks/films";
 import AddReviewForm from '../add-review-form/add-review-form';
 

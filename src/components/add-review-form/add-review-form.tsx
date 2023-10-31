@@ -31,7 +31,7 @@ const AddReviewForm = () => {
   return (
     <form onSubmit={handleSubmit} className="add-review__form">
       <div className="rating">
-        
+        // TODO Добавить компонент рейтинга
       </div>
 
       <div className="add-review__text">
