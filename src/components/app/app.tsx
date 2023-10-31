@@ -5,7 +5,6 @@ import SignIn from '../sing-in/sing-in';
 import PrivateRoute from '../private-route/private-route';
 import MyList from '../my-list/my-list';
 import MoviePage from '../movie-page/movie-page';
-import MoviePageReviews from '../movie-page-reviews/movie-page-reviews';
 import Player from '../player/player';
 import NotFoundPage from '../not-found/not-found';
 import { Film } from '../../mocks/films';
