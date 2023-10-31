@@ -51,10 +51,10 @@ const MainPage: FC<MainPageProps> = (props) => {
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{films[0].title}</h2>
+              <h2 className="film-card__title">{mainFilm[0].title}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{films[0].genre}</span>
-                <span className="film-card__year">{films[0].releaseDate}</span>
+                <span className="film-card__genre">{mainFilm[0].genre}</span>
+                <span className="film-card__year">{mainFilm[0].releaseDate}</span>
               </p>
 
               <div className="film-card__buttons">
