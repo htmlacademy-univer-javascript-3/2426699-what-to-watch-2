@@ -2,15 +2,15 @@ import { FC } from 'react';
 import { Film } from "../../mocks/films";
 
 interface PlayerProps{
-  film: Film;
+  films: Film;
 }
 
 const Player: FC<PlayerProps> = (props) => {
-  const {film} = props;
+  const {films} = props;
   return (
     <>
       <div className="player">
-        <video src="#" className="player__video" poster={film.poster}></video>
+        <video src="#" className="player__video" poster={films.poster}></video>
 
         <button type="button" className="player__exit">Exit</button>
 

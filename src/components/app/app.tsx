@@ -11,11 +11,12 @@ import NotFoundPage from '../not-found/not-found';
 import { Film } from '../../mocks/films';
 import { MainFilm } from '../../mocks/mainFilm';
 import { FC } from 'react';
+import AddReview from '../add-review/add-review';
 
 
 interface AppProps {
-  films: Film[]; // Для MyList
-  film: Film; // Для Player
+  films: Film[];
+  film: Film;
   mainFilm: MainFilm[];
 }
 
@@ -38,8 +39,8 @@ const App: FC<AppProps> = (props) => {
         <Route path="/login" element={<SignIn />} />
         <Route path="/mylist" element={<PrivateRoute component={<MyList films={films}/>} />} /> 
         <Route path="/films/:id" element={<MoviePage />} />
-        <Route path="/films/:id/review" element={<MoviePageReviews />} />
-        <Route path="/player/:id" element={<Player film={film}/>} />
+        <Route path="/films/:id/review" element={<AddReview  films={film}/>} />
+        <Route path="/player/:id" element={<Player films={film}/>} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
