@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import FilmList from '../../components/film-list/film-list';
 import { Film } from '../../mocks/films';
-import { MainFilm } from '../../mocks/mainFilm';{}
+import { MainFilm } from '../../mocks/mainFilm';
 
 interface MainPageProps {
   films: Film[];

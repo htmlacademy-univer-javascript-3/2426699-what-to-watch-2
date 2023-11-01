@@ -10,7 +10,7 @@ const FilmList: React.FC<FilmListProps> = ({ films }) => {
     return (
         <div className="catalog__films-list">
             {films.map((film) => (
-                <FilmCard key={film.id} film={film} />
+                <FilmCard key={film.id} films={film} />
             ))}
         </div>
     );
