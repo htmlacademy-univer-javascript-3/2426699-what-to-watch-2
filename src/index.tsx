@@ -10,7 +10,7 @@ const rootElement = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
   <React.StrictMode>
-    <App films={films} mainFilm={mainFilm}/>
+    <App films={films} film={mainFilm} mainFilm={mainFilm}/> // TODO Как тут быть? Пока в film передала mainFilm, а должно быть films но без []
   </React.StrictMode>,
   rootElement
 );

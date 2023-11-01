@@ -1,22 +1,22 @@
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import MainPage from '../main-page/main-page';
-import SignIn from '../sing-in/sing-in';
+import MainPage from '../../page/main-page/main-page';
+import SignIn from '../../page/sing-in/sing-in';
 import PrivateRoute from '../private-route/private-route';
-import MyList from '../my-list/my-list';
-import MoviePage from '../movie-page/movie-page';
-import Player from '../player/player';
-import NotFoundPage from '../not-found/not-found';
+import MyList from '../../page/my-list/my-list';
+import MoviePage from '../../page/movie-page/movie-page';
+import Player from '../../page/player/player';
+import NotFoundPage from '../../page/not-found/not-found';
 import { Film } from '../../mocks/films';
 import { MainFilm } from '../../mocks/mainFilm';
 import { FC } from 'react';
-import AddReview from '../add-review/add-review';
+import AddReview from '../../page/add-review/add-review';
 
 
 interface AppProps {
   films: Film[];
   film: Film;
-  mainFilm: MainFilm[];
+  mainFilm: MainFilm;
 }
 
 const App: FC<AppProps> = (props) => {

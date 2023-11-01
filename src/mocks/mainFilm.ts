@@ -11,7 +11,7 @@ export interface MainFilm {
     video: string;
 }
 
-const mainFilm: MainFilm[] = [
+const mainFilm: MainFilm = 
     {
         id: 1,
         title: 'The Grand Budapest Hotel',
@@ -24,5 +24,5 @@ const mainFilm: MainFilm[] = [
         starring: 'Bill Murray, Edward Norton, Jude Law, Willem Dafoe and others',
         video: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',
     }
-];
+
 export default mainFilm;

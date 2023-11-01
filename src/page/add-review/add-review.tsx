@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Film } from "../../mocks/films";
-import AddReviewForm from '../add-review-form/add-review-form';
+import AddReviewForm from '../../components/add-review-form/add-review-form';
 
 interface AddReviewProps{
     films: Film;
