@@ -1,16 +1,16 @@
 import { FC } from 'react';
-import { Film } from "../../mocks/films";
+import films, { Film } from "../../mocks/films";
+import { useParams } from 'react-router-dom';
 
-interface PlayerProps{
-  films: Film;
-}
 
-const Player: FC<PlayerProps> = (props) => {
-  const {films} = props;
+
+const Player: FC = () => {
+  const { id } = useParams()
+  const currentFilm = films.find((film) => film.id === Number(id))
   return (
     <>
       <div className="player">
-        <video src="#" className="player__video" poster={films.poster}></video>
+        <video src="#" className="player__video" poster={currentFilm?.poster}></video>
 
         <button type="button" className="player__exit">Exit</button>
 

@@ -1,15 +1,26 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import FilmList from '../../components/film-list/film-list';
 import { Film } from '../../mocks/films';
-import { MainFilm } from '../../mocks/mainFilm';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface MainPageProps {
   films: Film[];
-  mainFilm: MainFilm;
+  mainFilm: Film;
 }
 // 
 const MainPage: FC<MainPageProps> = (props) => {
   const { films, mainFilm } = props;
+
+  const navigate = useNavigate();
+
+  const playClick = useCallback(() => {
+    navigate(`/player/${mainFilm?.id}`);
+  }, [])
+
+  const myListClick = useCallback(() => {
+    navigate(`/mylist/`);
+  }, [])
+
 
   return (
     <>
@@ -25,11 +36,11 @@ const MainPage: FC<MainPageProps> = (props) => {
 
         <header className="page-header film-card__head">
           <div className="logo">
-            <a className="logo__link">
+            <Link to={'/'} className="logo__link">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <ul className="user-block">
@@ -39,7 +50,7 @@ const MainPage: FC<MainPageProps> = (props) => {
               </div>
             </li>
             <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
+              <Link to={'/login'} className="user-block__link">Sign out</Link>
             </li>
           </ul>
         </header>
@@ -58,13 +69,13 @@ const MainPage: FC<MainPageProps> = (props) => {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <button className="btn btn--play film-card__button" type="button" onClick={playClick}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
+                <button className="btn btn--list film-card__button" type="button" onClick={myListClick}>
                   <svg viewBox="0 0 19 20" width="19" height="20">
                     <use xlinkHref="#add"></use>
                   </svg>
@@ -96,11 +107,11 @@ const MainPage: FC<MainPageProps> = (props) => {
 
         <footer className="page-footer">
           <div className="logo">
-            <a className="logo__link logo__link--light">
+            <Link to={'/'} className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
 
           <div className="copyright">

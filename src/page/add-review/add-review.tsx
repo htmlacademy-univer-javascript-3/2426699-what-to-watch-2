@@ -1,36 +1,35 @@
 import { FC } from 'react';
-import { Film } from "../../mocks/films";
+import films from "../../mocks/films";
 import AddReviewForm from '../../components/add-review-form/add-review-form';
+import { Link, useParams } from 'react-router-dom';
 
-interface AddReviewProps{
-    films: Film;
-}
+const AddReview: FC = () => {
 
-const AddReview: FC<AddReviewProps>= (props) => {
-    const{films}=props;
+    const { id } = useParams()
+    const currentFilm = films.find((film) => film.id === Number(id))
     return (
         <>
             <section className="film-card film-card--full">
                 <div className="film-card__header">
                     <div className="film-card__bg">
-                        <img src={films.poster} alt={films.title} />
+                        <img src={currentFilm?.poster} alt={currentFilm?.title} />
                     </div>
 
                     <h1 className="visually-hidden">WTW</h1>
 
                     <header className="page-header">
                         <div className="logo">
-                            <a href="main.html" className="logo__link">
+                            <Link to="/" className="logo__link">
                                 <span className="logo__letter logo__letter--1">W</span>
                                 <span className="logo__letter logo__letter--2">T</span>
                                 <span className="logo__letter logo__letter--3">W</span>
-                            </a>
+                            </Link>
                         </div>
 
                         <nav className="breadcrumbs">
                             <ul className="breadcrumbs__list">
                                 <li className="breadcrumbs__item">
-                                    <a href="film-page.html" className="breadcrumbs__link">{films.title}</a>
+                                    <Link to="/films/:id" className="breadcrumbs__link">{currentFilm?.title}</Link>
                                 </li>
                                 <li className="breadcrumbs__item">
                                     <a className="breadcrumbs__link">Add review</a>
@@ -51,7 +50,7 @@ const AddReview: FC<AddReviewProps>= (props) => {
                     </header>
 
                     <div className="film-card__poster film-card__poster--small">
-                        <img src={films.poster} alt={films.title} width="218" height="327" />
+                        <img src={currentFilm?.poster} alt={currentFilm?.title} width="218" height="327" />
                     </div>
                 </div>
 
