@@ -1,24 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-
-interface MainPageData {
-  title: string;
-  genre: string;
-  releaseDate: string;
-}
-
-const mainPageData: MainPageData = {
-  title: "The Grand Budapest Hotel",
-  genre: "Drama",
-  releaseDate: "2014",
-};
+import films from './mocks/films';
+// TODO Вернуть Карточку старую
 
 const rootElement = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
   <React.StrictMode>
-    <App mainPageData={mainPageData} />
+    <App films={films} />
   </React.StrictMode>,
   rootElement
 );

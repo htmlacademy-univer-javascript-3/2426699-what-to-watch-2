@@ -1,7 +1,7 @@
 import { Route, Navigate } from 'react-router-dom';
 
 const PrivateRoute = ({ component }: { component: React.ReactNode }) => {
-  const isUserAuthenticated = false; // Далее нужно будет заменить проверку авторизации пользователя
+  const isUserAuthenticated = false; 
 
   return isUserAuthenticated ? (
     <Route element={component} />
