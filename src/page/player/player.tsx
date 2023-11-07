@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import films, { Film } from "../../mocks/films";
+import films from "../../mocks/films";
 import { useParams } from 'react-router-dom';
 
 
