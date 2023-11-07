@@ -39,7 +39,7 @@ const Player: FC = () => {
         >
           <video
             ref={videoRef} // Привязка ссылки к элементу <video>
-            src={currentFilm?.video} // Замените на реальный URL видеофайла
+            src={currentFilm?.video}
             className="player__video"
             poster={currentFilm?.poster}
             muted
