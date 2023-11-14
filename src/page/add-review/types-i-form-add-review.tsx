@@ -1,4 +1,4 @@
 export interface IFormAddReview {
-    rating: number;
-    text: string;
-  }
+  rating: number;
+  text: string;
+}

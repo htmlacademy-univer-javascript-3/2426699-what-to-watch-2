@@ -14,7 +14,7 @@ const MyList: FC<MyListProps> = (props) => {
     const { films } = props;
     return (
         <div className="user-page">
-            <header className="page-header user-page__head"> 
+            <header className="page-header user-page__head">
                 <Logo />
 
                 <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>

@@ -4,6 +4,7 @@ import Footer from "../footer/footer"
 
 
 
+
 const SingInMessage: FC = () => {
     return (
         <>
@@ -15,7 +16,7 @@ const SingInMessage: FC = () => {
                 </header>
 
                 <div className="sign-in user-page__content">
-                    <htmlForm action="#" className="sign-in__htmlForm"> //TODO htmlForm
+                    <form action="#" className="sign-in__htmlForm">
                         <div className="sign-in__message">
                             <p>We can’t recognize this email <br /> and password combination. Please try again.</p>
                         </div>
@@ -32,7 +33,7 @@ const SingInMessage: FC = () => {
                         <div className="sign-in__submit">
                             <button className="sign-in__btn" type="submit">Sign in</button>
                         </div>
-                    </htmlForm>
+                    </form>
                 </div>
 
                 <Footer />

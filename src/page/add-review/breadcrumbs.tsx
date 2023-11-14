@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { TFilm } from './types-tfilm';
 
 interface BreadcrumbsProps {
-	currentFilm?: TFilm;
+  currentFilm?: TFilm;
 }
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ currentFilm }) => (

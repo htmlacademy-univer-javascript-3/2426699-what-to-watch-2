@@ -7,7 +7,7 @@ const ratings = [...Array(10).keys()].map((index) => index + 1).sort((a, b) => b
 interface IRatingStars {
   onChangeRating: (value: number) => void;
 }
-export const RatingStars: FC<IRatingStars> = ({onChangeRating}) => (
+export const RatingStars: FC<IRatingStars> = ({ onChangeRating }) => (
   <div className="rating__stars">
     {ratings.map((rating) => (
       <RatingInput

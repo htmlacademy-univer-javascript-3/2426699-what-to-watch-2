@@ -29,7 +29,7 @@ const SignIn = () => {
           </form>
         </div>
 
-        <Footer />//
+        <Footer />
       </div>
     </>
   );

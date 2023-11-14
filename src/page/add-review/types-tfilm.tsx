@@ -10,4 +10,4 @@ export type TFilm = {
   director: string;
   starring: string;
   video: string;
-  }
+}

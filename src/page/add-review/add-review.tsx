@@ -10,8 +10,8 @@ import { useParams } from 'react-router-dom';
 
 export const AddReview: FC = () => {
 
-    const { id } = useParams()
-    const currentFilm = films.find((film) => film.id === Number(id))
+  const { id } = useParams()
+  const currentFilm = films.find((film) => film.id === Number(id))
 
   const methods = useForm<IFormAddReview>({
     defaultValues: {
@@ -49,7 +49,7 @@ export const AddReview: FC = () => {
 
         <header className="page-header">
           <Logo />
-          <Breadcrumbs currentFilm={currentFilm}/>
+          <Breadcrumbs currentFilm={currentFilm} />
           <UserBlock />
         </header>
 
@@ -67,7 +67,7 @@ export const AddReview: FC = () => {
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} action="#" className="add-review__form">
             <div className="rating">
-              <RatingStars onChangeRating={setRatingValue}/>
+              <RatingStars onChangeRating={setRatingValue} />
             </div>
 
             <div className="add-review__text">

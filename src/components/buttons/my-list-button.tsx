@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface IMyListButton {
-	count: number;
+  count: number;
 }
 const MyListButton: React.FC<IMyListButton> = ({ count }) => (
   <button className="btn btn--list film-card__button" type="button">
