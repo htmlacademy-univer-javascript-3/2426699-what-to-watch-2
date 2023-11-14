@@ -8,4 +8,4 @@ const AddReview: FC<IAddReview> = ({ id }) => (
   <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
 );
 
-export default AddReview
+export default AddReview;
