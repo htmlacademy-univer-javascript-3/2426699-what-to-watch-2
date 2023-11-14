@@ -1,4 +1,7 @@
 import { FC } from "react"
+import Logo from "../logo/logo"
+import Footer from "../footer/footer"
+
 
 
 const SingInMessage: FC = () => {
@@ -6,21 +9,15 @@ const SingInMessage: FC = () => {
         <>
             <div className="user-page">
                 <header className="page-header user-page__head">
-                    <div className="logo">
-                        <a href="main.html" className="logo__link">
-                            <span className="logo__letter logo__letter--1">W</span>
-                            <span className="logo__letter logo__letter--2">T</span>
-                            <span className="logo__letter logo__letter--3">W</span>
-                        </a>
-                    </div>
+                    <Logo />
 
                     <h1 className="page-title user-page__title">Sign in</h1>
                 </header>
 
                 <div className="sign-in user-page__content">
-                    <htmlForm action="#" className="sign-in__htmlForm">
+                    <htmlForm action="#" className="sign-in__htmlForm"> //TODO htmlForm
                         <div className="sign-in__message">
-                            <p>We can’t recognize this email <br> and password combination. Please try again.</p>
+                            <p>We can’t recognize this email <br /> and password combination. Please try again.</p>
                         </div>
                         <div className="sign-in__fields">
                             <div className="sign-in__field">
@@ -38,19 +35,7 @@ const SingInMessage: FC = () => {
                     </htmlForm>
                 </div>
 
-                <footer className="page-footer">
-                    <div className="logo">
-                        <a href="main.html" className="logo__link logo__link--light">
-                            <span className="logo__letter logo__letter--1">W</span>
-                            <span className="logo__letter logo__letter--2">T</span>
-                            <span className="logo__letter logo__letter--3">W</span>
-                        </a>
-                    </div>
-
-                    <div className="copyright">
-                        <p>© 2019 What to watch Ltd.</p>
-                    </div>
-                </footer>
+                <Footer />
             </div>
         </>
     )

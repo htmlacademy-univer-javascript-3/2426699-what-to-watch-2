@@ -2,6 +2,8 @@ import { FC } from 'react';
 import FilmCard from '../../components/film-card/film-card';
 import { Film } from '../../mocks/films';
 import { Link } from 'react-router-dom';
+import Logo from '../../components/logo/logo';
+import Footer from '../../components/footer/footer';
 
 
 interface MyListProps {
@@ -12,14 +14,8 @@ const MyList: FC<MyListProps> = (props) => {
     const { films } = props;
     return (
         <div className="user-page">
-            <header className="page-header user-page__head">
-                <div className="logo">
-                    <Link to="/" className="logo__link">
-                        <span className="logo__letter logo__letter--1">W</span>
-                        <span className="logo__letter logo__letter--2">T</span>
-                        <span className="logo__letter logo__letter--3">W</span>
-                    </Link>
-                </div>
+            <header className="page-header user-page__head"> 
+                <Logo />
 
                 <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>
                 <ul className="user-block">
@@ -43,19 +39,7 @@ const MyList: FC<MyListProps> = (props) => {
                 </div>
             </section>
 
-            <footer className="page-footer">
-                <div className="logo">
-                    <Link to="/" className="logo__link">
-                        <span className="logo__letter logo__letter--1">W</span>
-                        <span className="logo__letter logo__letter--2">T</span>
-                        <span className="logo__letter logo__letter--3">W</span>
-                    </Link>
-                </div>
-
-                <div className="copyright">
-                    <p>© 2019 What to watch Ltd.</p>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 };

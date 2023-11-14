@@ -6,7 +6,7 @@ const AddReviewForm = () => {
     reviewText: '',
   });
 
-  // Обработчик изменения значения рейтинга
+  // TODO Если не будет использоваться, то удалить Обработчик изменения значения рейтинга
   const handleRatingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -31,7 +31,7 @@ const AddReviewForm = () => {
   return (
     <form onSubmit={handleSubmit} className="add-review__form">
       <div className="rating">
-        // TODO Добавить компонент рейтинга
+        {/* TODO Добавить компонент рейтинга*/}
       </div>
 
       <div className="add-review__text">

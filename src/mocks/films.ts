@@ -12,7 +12,7 @@ export interface Film {
 }
 
 const films: Film[] = [
-    { // TODO Добавить баллы к каждому
+    { 
         id: 1,
         title: 'Fantastic Beasts: The Crimes of Grindelwald',
         genre: 'Adventure, Family, Fantasy',
