@@ -2,7 +2,7 @@ const Reviews = () => {
     return (
         <>
             <div className="film-card__desc">
-                
+
 
                 <div className="film-card__reviews film-card__row">
                     <div className="film-card__reviews-col">

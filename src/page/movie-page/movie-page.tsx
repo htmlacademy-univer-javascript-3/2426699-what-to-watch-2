@@ -44,7 +44,7 @@ const MoviePage = () => {
 
           <header className="page-header film-card__head">
             <Logo />
-            
+
 
             <ul className="user-block">
               <li className="user-block__item">
@@ -67,10 +67,10 @@ const MoviePage = () => {
               </p>
 
               <div className="film-card__buttons">
-                <Buttons.Play id={currentFilm?.id} /> 
+                <Buttons.Play id={currentFilm?.id} />
                 <Buttons.MyListButton count={12} />
                 <Buttons.AddReview id={currentFilm?.id} />
-                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -80,15 +80,15 @@ const MoviePage = () => {
             <div className="film-card__poster film-card__poster--big">
               <img src={currentFilm?.poster} alt={currentFilm?.title} width="218" height="327" />
             </div>
-            
-              <Tabs tabs={tabs} />
-            
+
+            <Tabs tabs={tabs} />
+
           </div>
         </div>
       </section>
 
       <div className="page-content">
-        <LikeThis />
+        <LikeThis genre={currentFilm?.genre} />
         <Footer />
       </div>
     </>

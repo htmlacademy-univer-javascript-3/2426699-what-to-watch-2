@@ -27,7 +27,7 @@ const films: Film[] = [
     {
         id: 2,
         title: 'Bohemian Rhapsody',
-        genre: 'Biography, Drama, Music',
+        genre: 'Adventure, Family, Fantasy',
         releaseDate: 2018,
         score: 8.9,
         poster: 'img/bohemian-rhapsody.jpg',
@@ -39,7 +39,7 @@ const films: Film[] = [
     {
         id: 3,
         title: 'Macbeth',
-        genre: 'Drama, History, War',
+        genre: 'Adventure, Family, Fantasy',
         releaseDate: 2015,
         score: 8.9,
         poster: 'img/macbeth.jpg',
