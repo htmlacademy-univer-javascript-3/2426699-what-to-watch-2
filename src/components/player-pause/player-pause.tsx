@@ -38,3 +38,5 @@ const PlayerPause: FC = () => {
         </>
     )
 }
+
+export default PlayerPause;

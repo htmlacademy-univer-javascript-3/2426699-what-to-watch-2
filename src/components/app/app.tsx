@@ -9,7 +9,7 @@ import Player from '../../page/player/player';
 import NotFoundPage from '../../page/not-found/not-found';
 import { Film } from '../../mocks/films';
 import { FC } from 'react';
-import AddReview from '../../page/add-review/add-review';
+import { AddReview } from '../../page/add-review/add-review';
 
 
 interface AppProps {
@@ -33,10 +33,10 @@ const App: FC<AppProps> = (props) => {
           }
         />
         <Route path="/login" element={<SignIn />} />
-        <Route path="/mylist" element={<PrivateRoute component={<MyList films={films}/>} />} /> 
+        <Route path="/mylist" element={<PrivateRoute component={<MyList films={films} />} />} />
         <Route path="/films/:id" element={<MoviePage />} />
         <Route path="/films/:id/review" element={<AddReview />} / //Тоже через PrivateRoute&
-        > 
+        >
         <Route path="/player/:id" element={<Player />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

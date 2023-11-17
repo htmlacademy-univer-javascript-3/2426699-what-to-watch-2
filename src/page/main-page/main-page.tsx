@@ -2,12 +2,14 @@ import { FC, useCallback } from 'react';
 import FilmList from '../../components/film-list/film-list';
 import { Film } from '../../mocks/films';
 import { Link, useNavigate } from 'react-router-dom';
+import Logo from '../../components/logo/logo';
+import Footer  from '../../components/footer/footer';
 
 interface MainPageProps {
   films: Film[];
   mainFilm: Film;
 }
-// 
+ 
 const MainPage: FC<MainPageProps> = (props) => {
   const { films, mainFilm } = props;
 
@@ -15,7 +17,7 @@ const MainPage: FC<MainPageProps> = (props) => {
 
   const playClick = useCallback(() => {
     navigate(`/player/${mainFilm?.id}`);
-  }, [])
+  }, [mainFilm?.id]) 
 
   const myListClick = useCallback(() => {
     navigate(`/mylist/`);
@@ -34,13 +36,9 @@ const MainPage: FC<MainPageProps> = (props) => {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <header className="page-header film-card__head">
+        <header className="page-header film-card__head"> 
           <div className="logo">
-            <Link to={'/'} className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
+            <Logo />
           </div>
 
           <ul className="user-block">
@@ -55,7 +53,7 @@ const MainPage: FC<MainPageProps> = (props) => {
           </ul>
         </header>
 
-        <div className="film-card__wrap">
+        <div className="film-card__wrap"> 
           <div className="film-card__info">
             <div className="film-card__poster">
               <img src={mainFilm.poster} alt={mainFilm.title} width="218" height="327" />
@@ -105,19 +103,7 @@ const MainPage: FC<MainPageProps> = (props) => {
           </div>
         </section>
 
-        <footer className="page-footer">
-          <div className="logo">
-            <Link to={'/'} className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
-
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

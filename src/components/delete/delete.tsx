@@ -1,22 +1,19 @@
-import { FC, useRef } from 'react';
+import { FC } from 'react';
+import films from "../../mocks/films";
 import { useParams } from 'react-router-dom';
-import films from '../../mocks/films';
 
 
 
 const Player: FC = () => {
-  const { id } = useParams();
-  const currentFilm = films.find((film) => film.id === Number(id));
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
+  const { id } = useParams()
+  const currentFilm = films.find((film) => film.id === Number(id))
   return (
     <>
-
       <div className="player">
-        <video src={currentFilm?.video} className="player__video" poster={currentFilm?.poster} muted ref={videoRef}></video>
-        <button type="button" className="player__exit">
-          Exit
-        </button>
+        <video src="#" className="player__video" poster={currentFilm?.poster}></video>
+
+        <button type="button" className="player__exit">Exit</button>
+
         <div className="player__controls">
           <div className="player__controls-row">
             <div className="player__time">
