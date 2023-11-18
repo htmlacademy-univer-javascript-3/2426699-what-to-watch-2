@@ -1,18 +1,20 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useState } from 'react';
 import FilmList from '../../components/film-list/film-list';
 import { Film } from '../../mocks/films';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../../components/logo/logo';
 import Footer  from '../../components/footer/footer';
+import { ECatalog, eCatalogValues } from '../../types/ECatalog'; 
+import GenresItem from '../../components/genres-item/genres-item';
+
 
 interface MainPageProps {
   films: Film[];
   mainFilm: Film;
 }
- 
 const MainPage: FC<MainPageProps> = (props) => {
   const { films, mainFilm } = props;
-
+  const [selectedGenre, setSelectedGenre] = useState(ECatalog.All);
   const navigate = useNavigate();
 
   const playClick = useCallback(() => {
@@ -22,7 +24,11 @@ const MainPage: FC<MainPageProps> = (props) => {
   const myListClick = useCallback(() => {
     navigate(`/mylist/`);
   }, [])
-
+  const handleGenreChange = useCallback((newGenre: ECatalog) => {
+    setSelectedGenre(newGenre);
+    // Здесь можно добавить логику фильтрации фильмов по выбранному жанру
+    // Обновите логику в соответствии с вашей реальной реализацией
+  }, []);
 
   return (
     <>
@@ -31,7 +37,7 @@ const MainPage: FC<MainPageProps> = (props) => {
 
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={mainFilm.poster} alt={mainFilm.title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -91,19 +97,25 @@ const MainPage: FC<MainPageProps> = (props) => {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
           <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
+            {eCatalogValues.map((genre) => (
+              <GenresItem
+                key={genre}
+                catalog={genre}
+                setGenre={handleGenreChange}
+                isActive={selectedGenre === genre}
+              />
+            ))}
           </ul>
 
-          <FilmList films={films} />
+          <FilmList films={films} selectedGenre={selectedGenre}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
-          </div>
-        </section>
+          </div> 
+        </section> 
 
         <Footer />
+        
       </div>
     </>
   );
