@@ -15,7 +15,7 @@ const films: Film[] = [
     { 
         id: 1,
         title: 'Fantastic Beasts: The Crimes of Grindelwald',
-        genre: 'Adventure, Family, Fantasy',
+        genre: 'Comedies',
         score: 8.9,
         releaseDate: 2018,
         poster: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
