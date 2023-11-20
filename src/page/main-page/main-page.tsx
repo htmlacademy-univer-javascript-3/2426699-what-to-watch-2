@@ -7,7 +7,6 @@ import Footer  from '../../components/footer/footer';
 import { ECatalog, eCatalogValues } from '../../types/ECatalog'; 
 import GenresItem from '../../components/genres-item/genres-item';
 
-
 interface MainPageProps {
   films: Film[];
   mainFilm: Film;
@@ -26,11 +25,12 @@ const MainPage: FC<MainPageProps> = (props) => {
   }, [])
   const handleGenreChange = useCallback((newGenre: ECatalog) => {
     setSelectedGenre(newGenre);
-    // Здесь можно добавить логику фильтрации фильмов по выбранному жанру
-    // Обновите логику в соответствии с вашей реальной реализацией
   }, []);
 
+ 
+
   return (
+    
     <>
       <div className="visually-hidden">
       </div>
@@ -109,9 +109,7 @@ const MainPage: FC<MainPageProps> = (props) => {
 
           <FilmList films={films} selectedGenre={selectedGenre}/>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div> 
+          
         </section> 
 
         <Footer />
