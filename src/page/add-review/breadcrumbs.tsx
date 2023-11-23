@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { TFilm } from './types-tfilm';
+import { TFilm } from '../../types/film';
 
 interface BreadcrumbsProps {
   currentFilm?: TFilm;
