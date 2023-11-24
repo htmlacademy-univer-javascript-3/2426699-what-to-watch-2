@@ -4,4 +4,5 @@ export type TFilm = {
   previewImage: string;
   previewVideoLink: string;
   genre: string;
+  year: number; //TODO надо ли
 }

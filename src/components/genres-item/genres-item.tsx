@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; 
 import { ECatalog } from '../../types/ECatalog';
 
 interface GenresItemProps {

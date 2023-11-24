@@ -1,23 +1,29 @@
-import { Link, useParams } from "react-router-dom";
-import films from "../../mocks/films";
-import Reviews from "../../components/reviews/reviews";
-import Overview from "../../components/overview/overview";
-import Details from "../../components/details/details";
-import { ReactElement } from 'react';
-import Footer from "../../components/footer/footer";
-import Logo from "../../components/logo/logo";
-import Buttons from "../../components/buttons/buttons";
-import { Tabs } from "../../components/tabs/tabs";
-import { LikeThis } from "../../components/like-this/like-this";
+import {FC} from 'react';
+import { useParams } from 'react-router-dom';
+import Logo from '../../components/logo/logo.tsx';
+import UserBlock from '../../components/user-block/user-block.tsx';
+import Buttons from '../../components/buttons/buttons.tsx';
+import { Tabs } from '../../components/tabs/tabs.tsx';
+import { ITab } from '../../components/tabs/types.ts';
+import Overview from '../../components/overview/overview.tsx';
+import { Details } from '../../components/details/details.tsx';
+import Reviews from '../../components/reviews/reviews.tsx';
+import { LikeThis } from '../../components/like-this/like-this.tsx';
+import NotFoundPage from '../not-found/not-found.tsx';
+import Spinner from '../../components/spinner/spinner.tsx';
+import { useAppSelector } from '../../hooks/stores.ts';
+import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
 
-interface ITab {
-  label: string;
-  component: ReactElement;
-}
 
-const MoviePage = () => {
-  const { id } = useParams()
-  const currentFilm = films.find((film) => film.id === Number(id))
+export const MoviePage: FC = () => {
+  const params = useParams();
+
+  const films = useAppSelector(selectFilmsData);
+  const film = films?.find((f) => f.id === params.id);
+  const filmsError = useAppSelector(selectFilmsError);
+  const filmsStatus = useAppSelector(selectFilmsStatus);
+
+
   const tabs: ITab[] = [
     {
       label: 'Overview',
@@ -32,44 +38,49 @@ const MoviePage = () => {
       component: <Reviews />
     }
   ];
+
+
+  if (filmsError) {
+    return <NotFoundPage/>;
+  }
+
+  if (!films || filmsStatus === 'LOADING') {
+    return <Spinner/>;
+  }
+  // TODO next task
   return (
     <>
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={currentFilm?.poster} alt={currentFilm?.title} />
+            <img
+              src={film?.previewImage}
+              alt={film?.name}
+            />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
 
           <header className="page-header film-card__head">
             <Logo />
-
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <Link to="/login" className="user-block__link">Sign out</Link>
-              </li>
-            </ul>
+            <UserBlock />
           </header>
-
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{currentFilm?.title}</h2>
+              <h2 className="film-card__title">{film?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{currentFilm?.genre}</span>
-                <span className="film-card__year">{currentFilm?.releaseDate}</span>
+                <span className="film-card__genre">
+                  {film?.genre}
+                </span>
+                {/*<span className="film-card__year">*/}
+                {/*  {film?.year}*/}
+                {/*</span>*/}
               </p>
 
               <div className="film-card__buttons">
-                <Buttons.Play id={currentFilm?.id} />
+                <Buttons.Play />
                 <Buttons.MyListButton count={12} />
-                <Buttons.AddReview id={currentFilm?.id} />
+                <Buttons.AddReview />
               </div>
             </div>
           </div>
@@ -78,21 +89,21 @@ const MoviePage = () => {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={currentFilm?.poster} alt={currentFilm?.title} width="218" height="327" />
+              <img
+                src={film?.previewImage}
+                alt={film?.name}
+                width="218"
+                height="327"
+              />
             </div>
-
-            <Tabs tabs={tabs} />
-
+            <div className="film-card__desc">
+              <Tabs tabs={tabs} />
+            </div>
           </div>
         </div>
       </section>
 
-      <div className="page-content">
-        <LikeThis genre={currentFilm?.genre} />
-        <Footer />
-      </div>
+      <LikeThis genre={film?.genre}/>
     </>
   );
 };
-
-export default MoviePage;

@@ -1,55 +1,51 @@
-import { Film } from '../../mocks/films';
 import { Link } from 'react-router-dom';
-import React, { useRef, useState } from 'react';
-import VideoPlayer from '../video-player/video-player';
+import Buttons from '../buttons/buttons.tsx';
+import UserBlock from '../user-block/user-block.tsx';
+import { FC } from 'react';
+import { TFilm } from '../../types/film.ts';
 
-
-const PLAYER_TIMEOUT = 1000;
-
-interface FilmCardProps {
-  films: Film;
+interface IFilmCardProps {
+  film: TFilm;
 }
 
-const FilmCard: React.FC<FilmCardProps> = (props) => {
-  const {films} = props;
-
-  const [isPlaying, setIsPlaying] = useState(false);
-  const timeoutId = useRef<NodeJS.Timeout | null>(null);
-  const handleMouseEnter = () => {
-    if (timeoutId.current) {
-      clearTimeout(timeoutId.current);
-    }
-
-    timeoutId.current = setTimeout(() => {
-      setIsPlaying(true);
-    }, PLAYER_TIMEOUT);
-  };
-
-  const handleMouseLeave = () => {
-    if (timeoutId.current) {
-      clearTimeout(timeoutId.current);
-    }
-
-    setIsPlaying(false);
-  };
+export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
+  const { previewImage, name, genre, year } = film;
 
   return (
-    <>
-      <article className="small-film-card catalog__films-card"> 
-        <div className="small-film-card__image"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        >
-          <VideoPlayer isPlaying={isPlaying} videoUrl={films.video} previewImageUrl={films.poster}/>
-        </div>
-        <h3 className="small-film-card__title">
-          <Link to={`/films/${films.id}`} className="small-film-card__link"> 
-            {films.title}
+    <section className="film-card">
+      <div className="film-card__bg">
+        <img src={previewImage} alt={name} />
+      </div>
+      <h1 className="visually-hidden">WTW</h1>
+      <header className="page-header film-card__head">
+        <div className="logo">
+          <Link className="logo__link logo__link--light" to="/">
+            <span className="logo__letter logo__letter--1">W</span>
+            <span className="logo__letter logo__letter--2">T</span>
+            <span className="logo__letter logo__letter--3">W</span>
           </Link>
-        </h3>
-      </article>
-    </>
+        </div>
+        <UserBlock />
+      </header>
+      <div className="film-card__wrap">
+        <div className="film-card__info">
+          <div className="film-card__poster">
+            <img src={previewImage} alt={name} width="218" height="327" />
+          </div>
+          <div className="film-card__desc">
+            <h2 className="film-card__title">{name}</h2>
+            <p className="film-card__meta">
+              <span className="film-card__genre">{genre}</span>
+              <span className="film-card__year">{year}</span>
+            </p>
+            <div className="film-card__buttons">
+              <Buttons.Play />
+              <Buttons.MyListButton count={12} />
+              <Buttons.AddReview />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 };
-
-export default FilmCard;
