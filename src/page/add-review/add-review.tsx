@@ -2,16 +2,21 @@ import { FC, useCallback } from 'react';
 import Logo from '../../components/logo/logo.tsx';
 import UserBlock from '../../components/user-block/user-block.tsx';
 import { Breadcrumbs } from './breadcrumbs.tsx';
-import films from '../../mocks/films.ts';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { RatingStars } from '../../components/rating-stars/rating-stars.tsx';
 import { IFormAddReview } from './types-i-form-add-review.tsx';
 import { useParams } from 'react-router-dom';
-
+import NotFoundPage from '../not-found/not-found.tsx';
+import { useAppSelector } from '../../hooks/stores.ts';
+import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import Spinner from '../../components/spinner/spinner.tsx';
 export const AddReview: FC = () => {
 
-  const { id } = useParams()
-  const currentFilm = films.find((film) => film.id === Number(id))
+  const params = useParams();
+  const films = useAppSelector(selectFilmsData);
+  const filmsError = useAppSelector(selectFilmsError);
+  const filmsStatus = useAppSelector(selectFilmsStatus);
+  const film = films?.find((f) => f.id === params.id);
 
   const methods = useForm<IFormAddReview>({
     defaultValues: {
@@ -38,25 +43,34 @@ export const AddReview: FC = () => {
     setValue('rating', value);
   }, [setValue]);
 
+  if (filmsError) {
+    return <NotFoundPage/>;
+  }
+
+  if (!films || filmsStatus === 'LOADING') {
+    return <Spinner/>;
+  }
+
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={currentFilm?.poster} alt={currentFilm?.title} />
+          <img src={film?.previewImage} alt={film?.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header">
           <Logo />
-          <Breadcrumbs currentFilm={currentFilm} />
+          <Breadcrumbs currentFilm={film}/>
           <UserBlock />
         </header>
 
         <div className="film-card__poster film-card__poster--small">
           <img
-            src={currentFilm?.poster}
-            alt={currentFilm?.title}
+            src={film?.previewImage}
+            alt={film?.name}
             width="218"
             height="327"
           />
@@ -67,7 +81,7 @@ export const AddReview: FC = () => {
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} action="#" className="add-review__form">
             <div className="rating">
-              <RatingStars onChangeRating={setRatingValue} />
+              <RatingStars onChangeRating={setRatingValue}/>
             </div>
 
             <div className="add-review__text">

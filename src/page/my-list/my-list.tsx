@@ -1,47 +1,64 @@
-import { FC } from 'react';
-import FilmCard from '../../components/film-card/film-card';
-import { Film } from '../../mocks/films';
-import { Link } from 'react-router-dom';
-import Logo from '../../components/logo/logo';
-import Footer from '../../components/footer/footer';
+import { FC, useCallback } from 'react';
+import Footer from '../../components/footer/footer.tsx';
+import { FilmCard } from '../../components/film-card/film-card.tsx';
+import Logo from '../../components/logo/logo.tsx';
+import NotFoundPage from '../not-found/not-found.tsx';
+import Spinner from '../../components/spinner/spinner.tsx';
+import { useAppDispatch, useAppSelector } from '../../hooks/stores.ts';
+import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../store/api-actions/api-actions.ts';
 
 
-interface MyListProps {
-    films: Film[];
-}
+export const MyList: FC = () => {
+  const films = useAppSelector(selectFilmsData);
+  const filmsError = useAppSelector(selectFilmsError);
+  const filmsStatus = useAppSelector(selectFilmsStatus);
+  const dispatch = useAppDispatch();
+  const history = useNavigate();
 
-const MyList: FC<MyListProps> = (props) => {
-    const { films } = props;
-    return (
-        <div className="user-page">
-            <header className="page-header user-page__head">
-                <Logo />
+  const userLogout = useCallback(() => {
+    dispatch(logout());
+    history('/login');
+  }, [dispatch, history]);
 
-                <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>
-                <ul className="user-block">
-                    <li className="user-block__item">
-                        <div className="user-block__avatar">
-                            <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                        </div>
-                    </li>
-                    <li className="user-block__item">
-                        <Link to="/login" className="user-block__link">Sign out</Link>
-                    </li>
-                </ul>
-            </header>
+  if (filmsError) {
+    return <NotFoundPage/>;
+  }
 
-            <section className="catalog">
-                <h2 className="catalog__title visually-hidden">Catalog</h2>
-                <div className="catalog__films-list">
-                    {films.map((film) => (
-                        <FilmCard key={film.id} films={film} />
-                    ))}
-                </div>
-            </section>
+  if (!films || filmsStatus === 'LOADING') {
+    return <Spinner/>;
+  }
 
-            <Footer />
+  return (
+    <div className="user-page">
+      <header className="page-header user-page__head">
+        <Logo />
+
+        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>
+        <ul className="user-block">
+          <li className="user-block__item">
+            <div className="user-block__avatar">
+              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+            </div>
+          </li>
+          <li className="user-block__item">
+            <span className="user-block__link" onClick={userLogout}>Sign out</span>
+          </li>
+        </ul>
+      </header>
+
+      <section className="catalog">
+        <h2 className="catalog__title visually-hidden">Catalog</h2>
+
+        <div className="catalog__films-list">
+          {
+            films.map((film) => <FilmCard key={film.id} film={film}/>)
+          }
         </div>
-    );
-};
+      </section>
 
-export default MyList;
+      <Footer/>
+    </div>
+  );
+};

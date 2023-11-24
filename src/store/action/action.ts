@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { ECatalog } from '../../types/ECatalog.ts';
 import { axiosInstance } from '../../services/api.ts';
-import { TFilm } from '../../page/add-review/types-tfilm.tsx';
+import { TFilm } from '../../types/film.tsx';
 import { AxiosResponse } from 'axios';
 
 export const setGenre = createAction<ECatalog>('catalog/setGenreType');

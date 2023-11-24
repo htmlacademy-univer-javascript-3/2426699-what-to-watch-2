@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from "react"; //TODO Не использую?
 import Logo from "../logo/logo";
 import Footer from "../footer/footer";
 const SingInError: FC = () => {
