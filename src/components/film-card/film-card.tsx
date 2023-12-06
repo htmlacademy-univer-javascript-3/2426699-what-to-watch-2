@@ -9,7 +9,7 @@ interface IFilmCardProps {
 }
 
 export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
-  const { previewImage, name, genre, year } = film;
+  const { previewImage, name, genre } = film;
 
   return (
     <section className="film-card">
@@ -36,7 +36,7 @@ export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
             <h2 className="film-card__title">{name}</h2>
             <p className="film-card__meta">
               <span className="film-card__genre">{genre}</span>
-              <span className="film-card__year">{year}</span>
+              <span className="film-card__year">{2001}</span>
             </p>
             <div className="film-card__buttons">
               <Buttons.Play />
