@@ -1,21 +1,23 @@
-import React from 'react'; 
-import { ECatalog } from '../../types/ECatalog';
+import React from 'react';
+import { ECatalog } from '../../types/ECatalog.ts';
 
-interface GenresItemProps {
+interface IGenresItemProps {
   catalog: ECatalog;
-  setGenre: (newGenre: ECatalog) => void;
+  setGenre: (newGenre: ECatalog) => () => void;
   isActive: boolean;
 }
-
-const GenresItem: React.FC<GenresItemProps> = ({ catalog, setGenre, isActive }) => (
-  <li className={`catalog__genres-item ${isActive ? 'catalog__genres-item--active' : ''}`}>
+export const GenresItem: React.FC<IGenresItemProps> = ({
+  catalog, setGenre, isActive
+}) => (
+  <li
+    className={`catalog__genres-item ${isActive ? 'catalog__genres-item--active' : ''}`}
+    key={catalog}
+  >
     <div
-      onClick={() => setGenre(catalog)}
+      onClick={setGenre(catalog)}
       className="catalog__genres-link"
     >
       {catalog}
     </div>
   </li>
 );
-
-export default GenresItem;

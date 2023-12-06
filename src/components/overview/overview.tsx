@@ -1,28 +1,59 @@
-const Overview = () => {
-    return (
-        <>
-<div className="film-card__desc">
-            
-            <div className="film-rating">
-              <div className="film-rating__score">8,9</div>
-              <p className="film-rating__meta">
-                <span className="film-rating__level">Very good</span>
-                <span className="film-rating__count">240 ratings</span>
-              </p>
-            </div>
+import { FC, useCallback, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import { TReview } from '../../types/review.ts';
+import { useAppSelector } from '../../hooks/stores.ts';
+import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import NotFoundPage from '../../page/not-found/not-found.tsx';
+import Spinner from '../spinner/spinner.tsx';
 
-            <div className="film-card__text">
-              <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave's friend and protege.</p>
 
-              <p>Gustave prides himself on providing first-className service to the hotel's guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave's lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
+export const Overview: FC = () => {
+  const params = useParams();
+  const films = useAppSelector(selectFilmsData);
+  const film = films?.find((f) => f.id === params.id);
+  const filmsError = useAppSelector(selectFilmsError);
+  const filmsStatus = useAppSelector(selectFilmsStatus);
 
-              <p className="film-card__director"><strong>Director: Wes Anderson</strong></p>
+  const calculateTotalRating = useCallback((reviews: TReview[] | undefined) => {
+    if (!reviews || reviews.length === 0) {
+      return 0;
+    }
+    return reviews.reduce((acc, next) => acc + next.rating, 0);
+  }, []);
+  // TODO add reviews
+  const score = useMemo(() => {
+    const totalRating = calculateTotalRating([]);
+    return totalRating / ([]?.length || 1); // Используем 1, чтобы избежать деления на 0
+  }, [calculateTotalRating]);
 
-              <p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>
-            </div>
-          </div>
-        </>
-    );
+  const ratingCount = useMemo(() => calculateTotalRating([]), [calculateTotalRating]);
+
+
+  if (filmsError) {
+    return <NotFoundPage/>;
+  }
+
+  if (!film || filmsStatus === 'LOADING') {
+    return <Spinner/>;
+  }
+
+  // TODO next task
+  return (
+    <div className="film-card__desc">
+      <div className="film-rating">
+        <div className="film-rating__score">{score}</div>
+        <p className="film-rating__meta">
+          <span className="film-rating__level">Very good</span>
+          <span className="film-rating__count">{ratingCount} ratings</span>
+        </p>
+      </div>
+
+      <div className="film-card__text">
+        {/*<p>{film?.description}</p>*/}
+        {/*<p className="film-card__director"><strong>Director: {film?.director}</strong></p>*/}
+        {/*<p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>*/}
+      </div>
+    </div>
+  );
+
 };
-
-export default Overview;

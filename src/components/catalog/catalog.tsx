@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import GenresItem from '../genres-item/genres-item.tsx';
+import {GenresItem} from '../genres-item/genres-item.tsx';
 import { ECatalog, eCatalogValues } from '../../types/ECatalog.ts';
 import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/stores.ts';

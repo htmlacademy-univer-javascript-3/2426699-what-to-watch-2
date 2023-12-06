@@ -9,7 +9,7 @@ import Spinner from '../spinner/spinner.tsx';
 interface ILikeThisProps {
   genre?: string;
 }
-export const LikeThis: FC<ILikeThisProps> = ({ genre}) => {
+export const LikeThis: FC<ILikeThisProps> = ({ genre }) => {
 
   const films = useAppSelector(selectFilmsData);
   const filmsError = useAppSelector(selectFilmsError);
@@ -19,11 +19,11 @@ export const LikeThis: FC<ILikeThisProps> = ({ genre}) => {
 
 
   if (filmsError) {
-    return <NotFoundPage/>;
+    return <NotFoundPage />;
   }
 
   if (!films || filmsStatus === 'LOADING') {
-    return <Spinner/>;
+    return <Spinner />;
   }
   return (
     <div className="page-content">
