@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TFilm } from '../../types/film';
-//TODO Server
+
 interface BreadcrumbsProps {
-  currentFilm?: TFilm;
+	film?: TFilm;
 }
 
-export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ currentFilm }) => (
+export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ film }) => (
   <nav className="breadcrumbs">
     <ul className="breadcrumbs__list">
       <li className="breadcrumbs__item">
-        <Link to={`/films/${currentFilm?.id}`} className="breadcrumbs__link">
-          {currentFilm?.name}
+        <Link to={`/films/${film?.id || ''}`} className="breadcrumbs__link">
+          {film?.name}
         </Link>
       </li>
       <li className="breadcrumbs__item">

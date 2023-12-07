@@ -2,28 +2,32 @@ import { FC } from 'react';
 import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
 import Footer from '../footer/footer.tsx';
 import { useAppSelector } from '../../hooks/stores.ts';
-import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import {
+  selectSimilarData, selectSimilarError, selectSimilarStatus
+} from '../../store/films/film-selectors.ts';
 import NotFoundPage from '../../page/not-found/not-found.tsx';
 import Spinner from '../spinner/spinner.tsx';
 
 interface ILikeThisProps {
   genre?: string;
 }
-export const LikeThis: FC<ILikeThisProps> = ({ genre }) => {
-
-  const films = useAppSelector(selectFilmsData);
-  const filmsError = useAppSelector(selectFilmsError);
-  const filmsStatus = useAppSelector(selectFilmsStatus);
-
-  const filmLikeThis = films?.filter((film) => film.genre === genre).slice(0, 4);
+export const LikeThis: FC<ILikeThisProps> = ({ genre}) => {
 
 
-  if (filmsError) {
-    return <NotFoundPage />;
+  const similar = useAppSelector(selectSimilarData);
+  const similarStatus = useAppSelector(selectSimilarStatus);
+  const similarError = useAppSelector(selectSimilarError);
+
+
+  const filmLikeThis = similar?.filter((film) => film.genre === genre).slice(0, 4);
+
+
+  if (similarError) {
+    return <NotFoundPage/>;
   }
 
-  if (!films || filmsStatus === 'LOADING') {
-    return <Spinner />;
+  if (!similar || similarStatus === 'LOADING') {
+    return <Spinner/>;
   }
   return (
     <div className="page-content">

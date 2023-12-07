@@ -1,20 +1,22 @@
 import { FC, useCallback } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
-
+import { Control, useWatch } from 'react-hook-form';
+import { FormAddReview } from '../../types/form-add-review.ts';
 
 interface IRatingInputProps {
   rating: number;
   onChangeRating: (value: number) => void;
+  control: Control<FormAddReview>;
 }
 export const RatingInput: FC<IRatingInputProps> = ({
-  rating, onChangeRating
+  rating, onChangeRating, control
 }) => {
 
-  const { control } = useFormContext();
-  const watchRating: number = useWatch({
+
+  const watchRating = useWatch({
     control,
     name: 'rating',
   });
+
   const setRatingValue = useCallback((value: React.ChangeEvent<HTMLInputElement>) => {
     onChangeRating(Number(value.target.value));
   }, [onChangeRating]);

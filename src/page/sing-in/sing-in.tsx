@@ -1,11 +1,11 @@
 import Logo from "../../components/logo/logo";
 import Footer from "../../components/footer/footer";
-import { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, FC, useCallback, useState } from 'react';
 import { IAuth } from '../../types/api.ts';
 import { login } from "../../store/api-actions/api-actions.ts";
 import { useAppDispatch } from "../../hooks/stores.ts";
 
-const SignIn = () => {
+export const SignIn: FC = () => {
   const dispatch = useAppDispatch();
 
   const [signIn, setSignIn] = useState<IAuth>({
@@ -74,5 +74,3 @@ const SignIn = () => {
     </div>
   );
 };
-
-export default SignIn;

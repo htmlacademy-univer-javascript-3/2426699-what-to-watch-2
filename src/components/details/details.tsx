@@ -6,6 +6,7 @@ import NotFoundPage from '../../page/not-found/not-found.tsx';
 import Spinner from '../../components/spinner/spinner.tsx';
 
 
+
 export const Details: FC = () => {
   const params = useParams();
   const films = useAppSelector(selectFilmsData);
