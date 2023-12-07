@@ -11,17 +11,34 @@ import { Reviews } from '../../components/reviews/reviews.tsx';
 import { LikeThis } from '../../components/like-this/like-this.tsx';
 import NotFoundPage from '../not-found/not-found.tsx';
 import Spinner from '../../components/spinner/spinner.tsx';
-import { useAppSelector } from '../../hooks/stores.ts';
-import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
+import { useAppSelector, useAppDispatch } from '../../hooks/stores.ts';
+import { useEffect } from 'react';
+import { fetchFilm, fetchSimilar, fetchReviews } from '../../store/api-actions/api-actions.ts';
+
+import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
+import {
+  selectFilmData, selectFilmError,
+  selectFilmStatus
+}  from '../../store/films/film-selectors.ts';
 
 
 export const MoviePage: FC = () => {
-  const params = useParams();
+  const { id = '' } = useParams();
 
-  const films = useAppSelector(selectFilmsData);
-  const film = films?.find((f) => f.id === params.id);
-  const filmsError = useAppSelector(selectFilmsError);
-  const filmsStatus = useAppSelector(selectFilmsStatus);
+  const film = useAppSelector(selectFilmData);
+  const filmError = useAppSelector(selectFilmError);
+  const filmStatus = useAppSelector(selectFilmStatus);
+  const isAuth = useAppSelector(authorizationStatusData);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchFilm(id));
+      dispatch(fetchSimilar(id));
+      dispatch(fetchReviews(id));
+    }
+  }, [id, dispatch]);
 
 
   const tabs: ITab[] = [
@@ -40,12 +57,12 @@ export const MoviePage: FC = () => {
   ];
 
 
-  if (filmsError) {
-    return <NotFoundPage/>;
+  if (!film || filmStatus === 'LOADING') {
+    return <Spinner/>;
   }
 
-  if (!films || filmsStatus === 'LOADING') {
-    return <Spinner/>;
+  if (filmError) {
+    return <NotFoundPage/>;
   }
   // TODO next task
   return (
@@ -67,20 +84,20 @@ export const MoviePage: FC = () => {
           </header>
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film?.name}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">
-                  {film?.genre}
+                  {film.genre}
                 </span>
-                {/*<span className="film-card__year">*/}
-                {/*  {film?.year}*/}
-                {/*</span>*/}
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
                 <Buttons.Play />
                 <Buttons.MyListButton count={12} />
-                <Buttons.AddReview />
+                {
+                  isAuth && <Buttons.AddReview filmId={id}/>
+                }
               </div>
             </div>
           </div>
@@ -90,8 +107,8 @@ export const MoviePage: FC = () => {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={film?.previewImage}
-                alt={film?.name}
+                src={film.previewImage}
+                alt={film.name}
                 width="218"
                 height="327"
               />
@@ -103,7 +120,7 @@ export const MoviePage: FC = () => {
         </div>
       </section>
 
-      <LikeThis genre={film?.genre}/>
+      <LikeThis genre={film.genre}/>
     </>
   );
 };
