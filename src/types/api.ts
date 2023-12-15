@@ -28,3 +28,16 @@ export enum EReducers {
     Auth = 'auth',
 
 }
+
+export const enum ReducerName {
+  Authorzation = 'authorizationReducer',
+  Main = 'mainReducer',
+  Film = 'filmReducer'
+}
+
+
+export const enum AuthorizationStatus {
+  Unauthorized = 'UnAuthorized',
+  Authorized = 'Authorized',
+  Idle = 'Idle'
+}

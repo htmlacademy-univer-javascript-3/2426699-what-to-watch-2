@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {GenresItem} from '../genres-item/genres-item.tsx';
-import { ECatalog, eCatalogValues } from '../../types/ECatalog.ts';
+import { ECatalog } from '../../types/ECatalog.ts';
 import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/stores.ts';
 import { setGenre } from '../../store/action/action.ts';
@@ -22,7 +22,7 @@ interface ICatalogProps {
 }
 export const Catalog: FC<ICatalogProps> = ({withGenres}) => {
   const [visibleFilmsCount, setVisibleFilmsCount] = useState(VISIBLE_FILMS_COUNT);
-  const genre = useAppSelector(currentGenre);
+  const activeGenre = useAppSelector(currentGenre);
   const films = useAppSelector(selectFilmsData);
   const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
@@ -34,18 +34,18 @@ export const Catalog: FC<ICatalogProps> = ({withGenres}) => {
     }
   }, [dispatch, films]);
 
-  const handleSetGenre = useCallback((value: ECatalog) => () => {
+  const handleSetGenre = useCallback((value: typeof activeGenre) => () => {
     dispatch(setGenre(value));
     setVisibleFilmsCount(VISIBLE_FILMS_COUNT);
   }, [dispatch]);
 
 
   const filteredFilms = useMemo(() => {
-    if (genre === ECatalog.All) {
+    if (activeGenre === ECatalog.All) {
       return films;
     }
-    return films?.filter((film) => film.genre === genre);
-  }, [genre, films]);
+    return films?.filter((film) => film.genre === activeGenre);
+  }, [activeGenre, films]);
 
   const handleShowMoreClick = useCallback(() => {
     const newVisibleCount = Math.min(visibleFilmsCount + VISIBLE_FILMS_COUNT, filteredFilms?.length || 0);
@@ -66,15 +66,15 @@ export const Catalog: FC<ICatalogProps> = ({withGenres}) => {
   if (!films || filmsStatus === 'LOADING') {
     return <Spinner/>;
   }
-
+  const genreList = useMemo(() => ['All genres', ...new Set(films.map((film) => film.genre))], [films]);
   return (
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <ul className="catalog__genres-list">
-        {withGenres &&
-          eCatalogValues.map((catalog) => (
-            <GenresItem catalog={catalog} key={catalog} setGenre={handleSetGenre} isActive={catalog === genre} />
-          ))}
+      {withGenres &&
+  genreList?.map((genre) => (
+    <GenresItem genre={genre} key={genre} setGenre={handleSetGenre} isActive={ activeGenre === genre} />
+  ))}
       </ul>
 
       <div className="catalog__films-list">

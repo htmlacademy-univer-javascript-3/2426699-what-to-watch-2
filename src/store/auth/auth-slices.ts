@@ -8,6 +8,8 @@ import { dropToken, saveToken } from '../../services/token.ts';
 export interface IAuthState {
   authorizationStatus: ApiStatusState<boolean>;
   user: ApiStatusState<TUser>;
+  
+  
 }
 
 const initialState: IAuthState = {

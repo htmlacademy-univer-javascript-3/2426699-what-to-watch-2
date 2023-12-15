@@ -4,10 +4,10 @@ import NotFoundPage from '../../page/not-found/not-found.tsx';
 import { useAppSelector } from '../../hooks/stores.ts';
 import { selectReviewsData, selectReviewsError, selectReviewsStatus } from '../../store/films/film-selectors.ts';
 import Spinner from '../spinner/spinner.tsx';
-
+//TODO!!!
 
 interface IReviewItemProps {
-  review: IReview;
+  review: TReview;
 }
 const Review: FC<IReviewItemProps> = ({review}) => (
   <div className="review">
@@ -64,14 +64,16 @@ export const Reviews: FC = () => {
     return <Spinner/>;
   }
 
-  return (
-    reviews
-      ? (
+  return reviews.length ? (
+   
         <div className="film-card__reviews film-card__row">
-          <FilmCardReviewsColumn reviews={firstColumnReviews} />
           <FilmCardReviewsColumn reviews={secondColumnReviews} />
+          <FilmCardReviewsColumn reviews={firstColumnReviews} />          
         </div>
-      )
-      : <NotFoundPage />
+      
+      
+      
+  ):(
+    <h1 style={{ color: 'black' }}>Кажется к этому фильму нет отзывов</h1>
   );
 };

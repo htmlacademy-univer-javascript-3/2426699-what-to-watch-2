@@ -1,9 +1,12 @@
 import { Link, useParams } from 'react-router-dom';
-
-export const Play = () => {
-  const { id = '' } = useParams();
+import { FC } from 'react';
+interface PlayerProps {
+  filmId: string;
+}
+export const Play: FC <PlayerProps> = ({filmId}) => {
+ // const { id = '' } = useParams();
   return (
-    <Link to={`/player/${id}`} className="btn btn--play film-card__button" type="button">
+    <Link to={`/player/${filmId}`} className="btn btn--play film-card__button" type="button">
       <svg viewBox="0 0 19 19">
         <use xlinkHref="#play-s" />
       </svg>

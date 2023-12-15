@@ -3,6 +3,7 @@ import Buttons from '../buttons/buttons.tsx';
 import UserBlock from '../user-block/user-block.tsx';
 import { FC } from 'react';
 import { TFilm } from '../../types/film.ts';
+import Logo from '../logo/logo.tsx';
 
 interface IFilmCardProps {
   film: TFilm;
@@ -18,13 +19,7 @@ export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
       </div>
       <h1 className="visually-hidden">WTW</h1>
       <header className="page-header film-card__head">
-        <div className="logo">
-          <Link className="logo__link logo__link--light" to="/">
-            <span className="logo__letter logo__letter--1">W</span>
-            <span className="logo__letter logo__letter--2">T</span>
-            <span className="logo__letter logo__letter--3">W</span>
-          </Link>
-        </div>
+        <Logo />
         <UserBlock />
       </header>
       <div className="film-card__wrap">
@@ -39,9 +34,8 @@ export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
               <span className="film-card__year">{released}</span>
             </p>
             <div className="film-card__buttons">
-              <Buttons.Play />
-              <Buttons.MyListButton count={12} />
-              <Buttons.AddReview filmId={id}/>
+              <Buttons.Play filmId={film.id} />
+              <Buttons.MyListButton/>
             </div>
           </div>
         </div>

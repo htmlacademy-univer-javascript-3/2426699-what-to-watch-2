@@ -2,22 +2,22 @@ import React from 'react';
 import { ECatalog } from '../../types/ECatalog.ts';
 
 interface IGenresItemProps {
-  catalog: ECatalog;
+  genre: any;
   setGenre: (newGenre: ECatalog) => () => void;
   isActive: boolean;
 }
 export const GenresItem: React.FC<IGenresItemProps> = ({
-  catalog, setGenre, isActive
+  genre, setGenre, isActive
 }) => (
   <li
     className={`catalog__genres-item ${isActive ? 'catalog__genres-item--active' : ''}`}
-    key={catalog}
+    key={genre}
   >
     <div
-      onClick={setGenre(catalog)}
+      onClick={setGenre(genre)}
       className="catalog__genres-link"
     >
-      {catalog}
+      {genre}
     </div>
   </li>
 );

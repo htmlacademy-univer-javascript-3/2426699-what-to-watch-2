@@ -67,12 +67,13 @@ export const MoviePage: FC = () => {
   // TODO next task
   return (
     <>
-      <section className="film-card film-card--full">
+      <section className="film-card film-card--full"
+      style={{ backgroundColor: film.backgroundColor }}>
         <div className="film-card__hero">
           <div className="film-card__bg">
             <img
-              src={film?.previewImage}
-              alt={film?.name}
+              src={film.backgroundImage}
+              alt={film.name}
             />
           </div>
 
@@ -93,8 +94,10 @@ export const MoviePage: FC = () => {
               </p>
 
               <div className="film-card__buttons">
-                <Buttons.Play />
-                <Buttons.MyListButton count={12} />
+                <Buttons.Play filmId={film.id}/>
+                
+                   <Buttons.MyListButton/>
+                  
                 {
                   isAuth && <Buttons.AddReview filmId={id}/>
                 }
@@ -107,7 +110,7 @@ export const MoviePage: FC = () => {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={film.previewImage}
+                src={film.posterImage}
                 alt={film.name}
                 width="218"
                 height="327"

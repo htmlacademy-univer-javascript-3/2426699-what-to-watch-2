@@ -175,6 +175,8 @@ export const setFavorite = createAsyncThunk<TFilm, { status: boolean; filmId: st
   }
 );
 
+
+
 export const addReview = createAsyncThunk<
   void,
   { comment: string; rating: number; filmId: string }>(
@@ -191,3 +193,16 @@ export const addReview = createAsyncThunk<
       }
     }
   );
+
+  export const fetchGenres = createAsyncThunk('genres/fetchGenres', async () => {
+    try {
+      const response = await axiosInstance.get('/api/genres'); 
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw error;
+      } else {
+        throw new Error('Error fetching genres');
+      }
+    }
+  });
