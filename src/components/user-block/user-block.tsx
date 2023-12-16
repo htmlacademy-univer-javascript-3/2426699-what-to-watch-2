@@ -9,14 +9,14 @@ interface UserBlockProps {
 }
  
 //TODO добавить проверку авторигован ли пользователь или нет
-const UserBlock: React.FC<UserBlockProps> = ({isAuthenticated}) => {
+const UserBlock: React.FC<UserBlockProps> = () => {
   const user = useAppSelector(userStatusData);
   const status = useAppSelector(authorizationStatusStatus);
    
 
   return (
     <ul className="user-block">
-      { !isAuthenticated ? (
+      { status ? (
         <>
           <li className="user-block__item">
             <Link to="/mylist">
