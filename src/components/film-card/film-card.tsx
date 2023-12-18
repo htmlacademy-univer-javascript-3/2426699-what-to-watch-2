@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Buttons from '../buttons/buttons.tsx';
-import UserBlock from '../user-block/user-block.tsx';
+import { UserBlock } from '../user-block/user-block.tsx';
 import { FC } from 'react';
 import { TFilm } from '../../types/film.ts';
 import Logo from '../logo/logo.tsx';
@@ -18,10 +18,8 @@ export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
         <img src={backgroundImage} alt={name} />
       </div>
       <h1 className="visually-hidden">WTW</h1>
-      <header className="page-header film-card__head">
-        <Logo />
+        
         <UserBlock />
-      </header>
       <div className="film-card__wrap">
         <div className="film-card__info">
           <div className="film-card__poster">

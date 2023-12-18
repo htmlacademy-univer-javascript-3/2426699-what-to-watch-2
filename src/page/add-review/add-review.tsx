@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect } from 'react';
 import Logo from '../../components/logo/logo.tsx';
-import UserBlock from '../../components/user-block/user-block.tsx';
+import { UserBlock } from '../../components/user-block/user-block.tsx';
 import { Breadcrumbs } from './breadcrumbs.tsx';
 import { FormProvider, useForm } from 'react-hook-form';
 import { RatingStars } from '../../components/rating-stars/rating-stars.tsx';

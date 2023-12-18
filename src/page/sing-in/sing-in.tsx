@@ -9,12 +9,14 @@ import React, {
 } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/stores';
 import { login } from '../../store/api-actions/api-actions';
-import Logo from '../../components/logo/logo';
-import UserBlock from '../../components/user-block/user-block';
+import { RootState } from '../../store/index';
+import { UserBlock } from '../../components/user-block/user-block';
 import Footer from '../../components/footer/footer';
 import { errorHandle } from '../../services/error-handle';
-import { authorizationStatusStatus} from '../../store/auth/auth-selectors';
-import { authorizationStatusError } from '../../store/auth/auth-selectors';
+import { authorizationStatusStatus, authorizationStatusError } from '../../store/auth/auth-selectors';
+import { useMemo } from 'react';
+import { AuthorizationStatus } from '../../types/api';
+import { Navigate } from 'react-router-dom';
 
 const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
@@ -74,7 +76,6 @@ const SignInPage: React.FC = () => {
 
       if (/[a-z]/i.test(password) && /[0-9]/.test(password)) {
         dispatch(login({ email: email, password: password }));
-        
       } else {
         errorHandle('Passwords must contain: a minimum of 1 letter and a minimum of 1 numeric character');
       }
@@ -90,13 +91,15 @@ const SignInPage: React.FC = () => {
     setPassword(event.target.value);
   }, []);
 
+  const pageTitle = useMemo(() => <h1 className="page-title user-page__title">Sign in</h1>, []);
 
   
 
   return (
     <div className="user-page">
-      <Logo />
-      <UserBlock />
+      <UserBlock className="user-page__head" isLoginPage>
+        {pageTitle}
+      </UserBlock>
 
       <div className="sign-in user-page__content">
         <form onSubmit={handleSubmit} className="sign-in__form">
@@ -141,3 +144,4 @@ const SignInPage: React.FC = () => {
 };
 
 export const SignIn = memo(SignInPage);
+//

@@ -1,7 +1,7 @@
 import {FC} from 'react';
 import { useParams } from 'react-router-dom';
 import Logo from '../../components/logo/logo.tsx';
-import UserBlock from '../../components/user-block/user-block.tsx';
+import { UserBlock } from '../../components/user-block/user-block.tsx';
 import Buttons from '../../components/buttons/buttons.tsx';
 import { Tabs } from '../../components/tabs/tabs.tsx';
 import { ITab } from '../../components/tabs/types.ts';
@@ -79,10 +79,10 @@ export const MoviePage: FC = () => {
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <header className="page-header film-card__head">
-            <Logo />
+          
+
             <UserBlock />
-          </header>
+          
           <div className="film-card__wrap">
             <div className="film-card__desc">
               <h2 className="film-card__title">{film.name}</h2>

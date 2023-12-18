@@ -14,7 +14,7 @@ export interface IAuthState {
 
 const initialState: IAuthState = {
   authorizationStatus: initialApiState,
-  user: initialApiState,
+  user: initialApiState
 };
 
 export const authSlice = createSlice({
