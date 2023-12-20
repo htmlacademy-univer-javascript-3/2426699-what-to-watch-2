@@ -8,6 +8,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks/stores.ts';
 import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../store/api-actions/api-actions.ts';
+import { UserBlock } from '../../components/user-block/user-block.tsx';
+import { SmallFilmCard } from '../../components/small-film-card/small-film-card.tsx';
 
 
 export const MyList: FC = () => {
@@ -23,42 +25,31 @@ export const MyList: FC = () => {
   }, [dispatch, history]);
 
   if (filmsError) {
-    return <NotFoundPage/>;
+    return <NotFoundPage />;
   }
 
   if (!films || filmsStatus === 'LOADING') {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   return (
     <div className="user-page">
-      <header className="page-header user-page__head">
-        <Logo />
-
-        <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>
-        <ul className="user-block">
-          <li className="user-block__item">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
-          </li>
-          <li className="user-block__item">
-            <span className="user-block__link" onClick={userLogout}>Sign out</span>
-          </li>
-        </ul>
-      </header>
 
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
-
+        <UserBlock className="user-page__head">
+          <h1 className="page-title user-page__title">
+            My list <span data-testid="favorite-count" className="user-page__film-count">{/*favoriteFilms.length*/10}</span>
+          </h1>
+        </UserBlock>
         <div className="catalog__films-list">
           {
-            films.map((film) => <FilmCard key={film.id} film={film}/>)
+            films.map((film) => <SmallFilmCard key={film.id} film={film} />)
           }
         </div>
       </section>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 };

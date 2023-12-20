@@ -79,8 +79,6 @@ export const MoviePage: FC = () => {
 
           <h1 className="visually-hidden">WTW</h1>
 
-          
-
             <UserBlock />
           
           <div className="film-card__wrap">
@@ -96,7 +94,7 @@ export const MoviePage: FC = () => {
               <div className="film-card__buttons">
                 <Buttons.Play filmId={film.id}/>
                 
-                   <Buttons.MyListButton/>
+                   <Buttons.MyListButton />
                   
                 {
                   isAuth && <Buttons.AddReview filmId={id}/>

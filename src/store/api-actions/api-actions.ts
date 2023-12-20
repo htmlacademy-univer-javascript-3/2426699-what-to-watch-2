@@ -6,20 +6,14 @@ import { TFilm } from '../../types/film.ts';
 import { axiosInstance } from '../../services/api.ts';
 import { IAuth } from '../../types/api.ts';
 import { TReview } from '../../types/review.ts';
+import { AppDispatch } from '../index/index.ts';
 
 
 export const getAuthorizationStatus = createAsyncThunk(
   'user/getAuthorizationStatus',
   async () => {
-    try {
-      await axiosInstance.get('/login');
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        throw e;
-      } else {
-        throw new Error('error');
-      }
-    }
+    const {data} = await axiosInstance.get('/login');
+    return data;
   },
 );
 
@@ -29,8 +23,8 @@ export const login = createAsyncThunk<TUser, IAuth, {
   'user/login',
   async ({ email, password }) => {
     try {
-      const response = await axiosInstance.post<TUser>('/login', { email, password });
-      return response.data;
+      const { data } = await axiosInstance.post<TUser>('/login', { email, password });
+      return data;
     } catch (e) {
       if (axios.isAxiosError(e)) {
         if (e.response?.status === 401) {
@@ -49,6 +43,7 @@ export const logout = createAsyncThunk(
   async () => {
     try {
       await axiosInstance.delete('/logout');
+      localStorage.removeItem('auth_token');
     } catch (e) {
       if (axios.isAxiosError(e)) {
         throw e;
@@ -194,15 +189,15 @@ export const addReview = createAsyncThunk<
     }
   );
 
-  export const fetchGenres = createAsyncThunk('genres/fetchGenres', async () => {
-    try {
-      const response = await axiosInstance.get('/api/genres'); 
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        throw error;
-      } else {
-        throw new Error('Error fetching genres');
-      }
+export const fetchGenres = createAsyncThunk('genres/fetchGenres', async () => {
+  try {
+    const response = await axiosInstance.get('/api/genres');
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw error;
+    } else {
+      throw new Error('Error fetching genres');
     }
-  });
+  }
+});

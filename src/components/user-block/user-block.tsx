@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { userStatusData, userStatusStatus } from '../../store/auth/auth-selectors';
+import { userStatusData} from '../../store/auth/auth-selectors';
 import { useAppSelector } from '../../hooks/stores';
 import { useCallback } from 'react';
 import { logout } from '../../store/api-actions/api-actions';
@@ -8,10 +8,7 @@ import { useAppDispatch } from '../../hooks/stores';
 import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import Logo from '../logo/logo';
-import { AuthorizationStatus } from '../../types/api';
-import { TUser } from '../../types/user';
 
-import { authorizationStatusStatus } from '../../store/auth/auth-selectors';
 
 interface HeaderProps {
   children?: React.ReactNode;
@@ -25,9 +22,8 @@ const UserBlockComponent: React.FC<HeaderProps> = ({
   isLoginPage = false,
 }) => {
   const navigate = useNavigate();
-  const authorizationStatus = useAppSelector(userStatusStatus);
   const user = useAppSelector(userStatusData);
-  const hasAccess = authorizationStatus !== null;
+  const isUser = user;
 
   const dispatch = useAppDispatch();
 
@@ -38,7 +34,7 @@ const UserBlockComponent: React.FC<HeaderProps> = ({
 
   const loginLogoutButton = useMemo(
     () =>
-      hasAccess ? (
+      isUser ? (
         <Link
           to={'/'}
           onClick={handleClick}
@@ -51,7 +47,7 @@ const UserBlockComponent: React.FC<HeaderProps> = ({
           Sign in
         </Link>
       ),
-    [handleClick, hasAccess]
+    [handleClick, isUser]
   );
 
   return (
@@ -62,7 +58,7 @@ const UserBlockComponent: React.FC<HeaderProps> = ({
 
       {!isLoginPage && (
         <ul className="user-block">
-          {hasAccess && (
+          {isUser && (
             <li className="user-block__item">
               <Link to={'/mylist'}>
                 <div className="user-block__avatar">

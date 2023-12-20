@@ -15,7 +15,7 @@ import Footer from '../../components/footer/footer';
 import { errorHandle } from '../../services/error-handle';
 import { authorizationStatusStatus, authorizationStatusError } from '../../store/auth/auth-selectors';
 import { useMemo } from 'react';
-import { AuthorizationStatus } from '../../types/api';
+import { AuthStatusEnum, AuthorizationStatus } from '../../types/api';
 import { Navigate } from 'react-router-dom';
 
 const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -93,7 +93,9 @@ const SignInPage: React.FC = () => {
 
   const pageTitle = useMemo(() => <h1 className="page-title user-page__title">Sign in</h1>, []);
 
-  
+  if(authStatus === AuthStatusEnum.Authorized){
+    return <Navigate to='/'/>
+  }
 
   return (
     <div className="user-page">
