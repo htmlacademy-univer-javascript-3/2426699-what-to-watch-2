@@ -10,7 +10,7 @@ interface IFilmCardProps {
 }
 
 export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
-  const { backgroundImage, name, genre, id, posterImage, released } = film;
+  const { backgroundImage, name, genre, id, posterImage, released, isFavorite } = film;
 
   return (
     <section className="film-card">
@@ -33,7 +33,7 @@ export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
             </p>
             <div className="film-card__buttons">
               <Buttons.Play filmId={film.id} />
-              <Buttons.MyListButton/>
+              <Buttons.MyListButton filmId={id} isFavorite={isFavorite}/>
             </div>
           </div>
         </div>

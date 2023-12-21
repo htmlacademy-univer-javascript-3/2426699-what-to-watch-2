@@ -1,6 +1,5 @@
 import {FC} from 'react';
 import { useParams } from 'react-router-dom';
-import Logo from '../../components/logo/logo.tsx';
 import { UserBlock } from '../../components/user-block/user-block.tsx';
 import Buttons from '../../components/buttons/buttons.tsx';
 import { Tabs } from '../../components/tabs/tabs.tsx';
@@ -64,7 +63,7 @@ export const MoviePage: FC = () => {
   if (filmError) {
     return <NotFoundPage/>;
   }
-  // TODO next task
+
   return (
     <>
       <section className="film-card film-card--full"
@@ -94,7 +93,7 @@ export const MoviePage: FC = () => {
               <div className="film-card__buttons">
                 <Buttons.Play filmId={film.id}/>
                 
-                   <Buttons.MyListButton />
+                   <Buttons.MyListButton  filmId={film.id} isFavorite={film.isFavorite}/>
                   
                 {
                   isAuth && <Buttons.AddReview filmId={id}/>

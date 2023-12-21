@@ -6,7 +6,6 @@ import { TFilm } from '../../types/film.ts';
 import { axiosInstance } from '../../services/api.ts';
 import { IAuth } from '../../types/api.ts';
 import { TReview } from '../../types/review.ts';
-import { AppDispatch } from '../index/index.ts';
 
 
 export const getAuthorizationStatus = createAsyncThunk(

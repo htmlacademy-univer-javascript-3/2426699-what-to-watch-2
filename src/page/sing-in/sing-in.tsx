@@ -9,13 +9,12 @@ import React, {
 } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/stores';
 import { login } from '../../store/api-actions/api-actions';
-import { RootState } from '../../store/index';
 import { UserBlock } from '../../components/user-block/user-block';
 import Footer from '../../components/footer/footer';
 import { errorHandle } from '../../services/error-handle';
 import { authorizationStatusStatus, authorizationStatusError } from '../../store/auth/auth-selectors';
 import { useMemo } from 'react';
-import { AuthStatusEnum, AuthorizationStatus } from '../../types/api';
+import { AuthStatusEnum } from '../../types/api';
 import { Navigate } from 'react-router-dom';
 
 const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
