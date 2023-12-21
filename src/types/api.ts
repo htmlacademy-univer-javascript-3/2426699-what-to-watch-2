@@ -1,13 +1,13 @@
 
-export enum ApiStatusPendingEnum {
+export enum AuthStatusEnum {
   LOADING = 'LOADING',
-  LOAD = 'LOAD',
-  ERROR = 'ERROR',
+  Authorized = 'Authorized',
+  NotAuthorized = 'NotAuthorized',
 }
 
 export interface ApiStatusState<T> {
   apiData: T | null;
-  apiStatus: ApiStatusPendingEnum | null;
+  apiStatus: AuthStatusEnum | null;
   apiError: string | null;
 }
 
@@ -27,4 +27,17 @@ export enum EReducers {
     Films = 'films',
     Auth = 'auth',
 
+}
+
+export const enum ReducerName {
+  Authorzation = 'authorizationReducer',
+  Main = 'mainReducer',
+  Film = 'filmReducer'
+}
+
+
+export const enum AuthorizationStatus {
+  Unauthorized = 'UnAuthorized',
+  Authorized = 'Authorized',
+  Idle = 'Idle'
 }

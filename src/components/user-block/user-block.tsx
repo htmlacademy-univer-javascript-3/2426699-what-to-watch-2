@@ -1,27 +1,82 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { userStatusData } from '../../store/auth/auth-selectors';
+import { userStatusData} from '../../store/auth/auth-selectors';
 import { useAppSelector } from '../../hooks/stores';
+import { useCallback } from 'react';
+import { logout } from '../../store/api-actions/api-actions';
+import { useAppDispatch } from '../../hooks/stores';
+import { useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
+import Logo from '../logo/logo';
 
-const UserBlock: React.FC = () => {
+
+interface HeaderProps {
+  children?: React.ReactNode;
+  className?: string;
+  isLoginPage?: boolean;
+}
+
+const UserBlockComponent: React.FC<HeaderProps> = ({
+  children,
+  className = '',
+  isLoginPage = false,
+}) => {
+  const navigate = useNavigate();
   const user = useAppSelector(userStatusData);
+  const isUser = user;
 
-  return (
-    <ul className="user-block">
-      <li className="user-block__item">
-        <Link to="/mylist">
-          <div className="user-block__avatar">
-            <img src={user?.avatarUrl} alt="User avatar" width="63" height="63" />
-          </div>
-        </Link>
-      </li>
-      <li className="user-block__item">
-        <Link to="/login" className="user-block__link">
+  const dispatch = useAppDispatch();
+
+  const handleClick = useCallback(() => {
+    dispatch(logout());
+    navigate('/');
+  }, [dispatch, navigate]);
+
+  const loginLogoutButton = useMemo(
+    () =>
+      isUser ? (
+        <Link
+          to={'/'}
+          onClick={handleClick}
+          className="user-block__link"
+        >
           Sign out
         </Link>
-      </li>
-    </ul>
+      ) : (
+        <Link to={'/login'} className="user-block__link">
+          Sign in
+        </Link>
+      ),
+    [handleClick, isUser]
+  );
+
+  return (
+    <header className={`page-header ${className}`}>
+      <Logo />
+
+      {children}
+
+      {!isLoginPage && (
+        <ul className="user-block">
+          {isUser && (
+            <li className="user-block__item">
+              <Link to={'/mylist'}>
+                <div className="user-block__avatar">
+                  <img
+                    src={user?.avatarUrl}
+                    alt={user?.name}
+                    width={60}
+                    height={60}
+                  />
+                </div>
+              </Link>
+            </li>
+          )}
+          <li className="user-block__item">{loginLogoutButton}</li>
+        </ul>
+      )}
+    </header>
   );
 };
 
-export default UserBlock;
+export const UserBlock = React.memo(UserBlockComponent);

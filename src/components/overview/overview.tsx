@@ -5,30 +5,18 @@ import { useAppSelector } from '../../hooks/stores.ts';
 import { selectFilmsData, selectFilmsError, selectFilmsStatus } from '../../store/films/film-selectors.ts';
 import NotFoundPage from '../../page/not-found/not-found.tsx';
 import Spinner from '../spinner/spinner.tsx';
+import { selectFilmData } from '../../store/films/film-selectors.ts';
+import { useFilmRating } from '../../hooks/stores.ts';
 
 
 export const Overview: FC = () => {
-  const params = useParams();
-  const films = useAppSelector(selectFilmsData);
-  const film = films?.find((f) => f.id === params.id);
+  
+
   const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
+  const film = useAppSelector(selectFilmData);
 
-  const calculateTotalRating = useCallback((reviews: TReview[] | undefined) => {
-    if (!reviews || reviews.length === 0) {
-      return 0;
-    }
-    return reviews.reduce((acc, next) => acc + next.rating, 0);
-  }, []);
-  // TODO add reviews
-  const score = useMemo(() => {
-    const totalRating = calculateTotalRating([]);
-    return totalRating / ([]?.length || 1); // Используем 1, чтобы избежать деления на 0
-  }, [calculateTotalRating]);
-
-  const ratingCount = useMemo(() => calculateTotalRating([]), [calculateTotalRating]);
-
-
+  
   if (filmsError) {
     return <NotFoundPage/>;
   }
@@ -36,22 +24,22 @@ export const Overview: FC = () => {
   if (!film || filmsStatus === 'LOADING') {
     return <Spinner/>;
   }
-
-  // TODO next task
+  const filmRatingLevel = useFilmRating(film.rating);
+ 
   return (
     <div className="film-card__desc">
       <div className="film-rating">
-        <div className="film-rating__score">{score}</div>
+        <div className="film-rating__score">{film.rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">Very good</span>
-          <span className="film-rating__count">{ratingCount} ratings</span>
+          <span className="film-rating__level">{filmRatingLevel}</span>
+          <span className="film-rating__count">{film.scoresCount} ratings</span>
         </p>
       </div>
 
       <div className="film-card__text">
-        {/*<p>{film?.description}</p>*/}
-        {/*<p className="film-card__director"><strong>Director: {film?.director}</strong></p>*/}
-        {/*<p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>*/}
+        <p>{film.description}</p>
+        <p className="film-card__director"><strong>Director: {film.director}</strong></p>
+        <p className="film-card__starring"><strong>{film.starring}</strong></p>
       </div>
     </div>
   );

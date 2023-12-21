@@ -1,7 +1,6 @@
 import {FC} from 'react';
 import { useParams } from 'react-router-dom';
-import Logo from '../../components/logo/logo.tsx';
-import UserBlock from '../../components/user-block/user-block.tsx';
+import { UserBlock } from '../../components/user-block/user-block.tsx';
 import Buttons from '../../components/buttons/buttons.tsx';
 import { Tabs } from '../../components/tabs/tabs.tsx';
 import { ITab } from '../../components/tabs/types.ts';
@@ -64,24 +63,23 @@ export const MoviePage: FC = () => {
   if (filmError) {
     return <NotFoundPage/>;
   }
-  // TODO next task
+
   return (
     <>
-      <section className="film-card film-card--full">
+      <section className="film-card film-card--full"
+      style={{ backgroundColor: film.backgroundColor }}>
         <div className="film-card__hero">
           <div className="film-card__bg">
             <img
-              src={film?.previewImage}
-              alt={film?.name}
+              src={film.backgroundImage}
+              alt={film.name}
             />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <header className="page-header film-card__head">
-            <Logo />
             <UserBlock />
-          </header>
+          
           <div className="film-card__wrap">
             <div className="film-card__desc">
               <h2 className="film-card__title">{film.name}</h2>
@@ -93,8 +91,10 @@ export const MoviePage: FC = () => {
               </p>
 
               <div className="film-card__buttons">
-                <Buttons.Play />
-                <Buttons.MyListButton count={12} />
+                <Buttons.Play filmId={film.id}/>
+                
+                   <Buttons.MyListButton  filmId={film.id} isFavorite={film.isFavorite}/>
+                  
                 {
                   isAuth && <Buttons.AddReview filmId={id}/>
                 }
@@ -107,7 +107,7 @@ export const MoviePage: FC = () => {
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
               <img
-                src={film.previewImage}
+                src={film.posterImage}
                 alt={film.name}
                 width="218"
                 height="327"
