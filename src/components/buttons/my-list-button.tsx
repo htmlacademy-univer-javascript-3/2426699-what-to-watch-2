@@ -10,6 +10,7 @@ interface IMyListButtonProps {
   filmId: string;
   isFavorite?: boolean;
 }
+
 export const MyListButton: React.FC<IMyListButtonProps> = ({ filmId, isFavorite }) => {
   const count = useAppSelector(countFavoriteFilm);
   const user = useAppSelector(userStatusData);
@@ -19,14 +20,13 @@ export const MyListButton: React.FC<IMyListButtonProps> = ({ filmId, isFavorite 
   const handleSetFavorite = (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (user) {
-      dispatch(setFavorite({ status: !isFavorite, filmId: filmId.toString() }));
-    }
-    else { navigate("/login"); }
+    user ? 
+      dispatch(setFavorite({ status: !isFavorite, filmId: filmId.toString() })) :
+      navigate("/login");
   };
+
   return (
     <button className="btn btn--list film-card__button" type="button" onClick={handleSetFavorite}>
-
       {isFavorite ? (
         <svg viewBox="0 0 18 14" width="18" height="14">
           <use xlinkHref="#in-list"></use>
@@ -39,6 +39,5 @@ export const MyListButton: React.FC<IMyListButtonProps> = ({ filmId, isFavorite 
       <span>My list</span>
       <span className="film-card__count">{count}</span>
     </button>
-
   );
 };
