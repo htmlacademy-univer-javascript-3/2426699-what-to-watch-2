@@ -82,7 +82,6 @@ const SignInPage: React.FC = () => {
     [dispatch, email, password]
   );
 
-
   const handleEmail = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   }, []);
@@ -92,8 +91,8 @@ const SignInPage: React.FC = () => {
 
   const pageTitle = useMemo(() => <h1 className="page-title user-page__title">Sign in</h1>, []);
 
-  if(authStatus === AuthStatusEnum.Authorized){
-    return <Navigate to='/'/>
+  if (authStatus === AuthStatusEnum.Authorized) {
+    return <Navigate to='/' />
   }
 
   return (
@@ -145,4 +144,3 @@ const SignInPage: React.FC = () => {
 };
 
 export const SignIn = memo(SignInPage);
-//

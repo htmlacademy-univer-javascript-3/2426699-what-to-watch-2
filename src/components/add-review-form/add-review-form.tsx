@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useAppDispatch } from '../../hooks/stores';
 import { useNavigate } from 'react-router-dom';
 import { addReview } from '../../store/api-actions/api-actions';
-
+import { useMemo } from 'react';
 const RATING = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 
 const MAX_LEN_REVIEW = 400;
@@ -17,19 +17,13 @@ const AddReviewComponent: React.FC<AddReviewFormProps> = ({ filmId }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleRatingChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setRating(event.target.value);
-    },
-    []
-  );
+  const handleRatingChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    setRating(event.target.value);
+  }, []);
 
-  const handleReviewTextChange = useCallback(
-    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setReviewText(event.target.value);
-    },
-    []
-  );
+  const handleReviewTextChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setReviewText(event.target.value);
+  }, []);
 
   const handleSubmit = useCallback(
     (event: React.FormEvent) => {
@@ -44,33 +38,36 @@ const AddReviewComponent: React.FC<AddReviewFormProps> = ({ filmId }) => {
     [dispatch, filmId, navigate, rating, reviewText]
   );
 
-  const isDisabled = !rating || !reviewText || reviewText.length < MIN_LEN_REVIEW || reviewText.length > MAX_LEN_REVIEW;
+  const isDisabled = useMemo(() => !rating || !reviewText || reviewText.length < MIN_LEN_REVIEW || reviewText.length > MAX_LEN_REVIEW, [rating, reviewText]);
+
+  const ratingInputs = useMemo(() => (
+    RATING.map((value) => (
+      <React.Fragment key={value}>
+        <input
+          className="rating__input"
+          id={`star-${value}`}
+          type="radio"
+          data-testid={`rating-${value}`}
+          name="rating"
+          value={value.toString()}
+          checked={rating === value.toString()}
+          onChange={handleRatingChange}
+        />
+        <label className="rating__label" htmlFor={`star-${value}`}>
+          Rating {value}
+        </label>
+      </React.Fragment>
+    ))
+  ), [rating, handleRatingChange]);
 
   return (
     <div className="add-review">
       <form action="#" className="add-review__form" onSubmit={handleSubmit}>
         <div className="rating">
           <div className="rating__stars">
-            {RATING.map((value) => (
-              <React.Fragment key={value}>
-                <input
-                  className="rating__input"
-                  id={`star-${value}`}
-                  type="radio"
-                  data-testid={`rating-${value}`}
-                  name="rating"
-                  value={value.toString()}
-                  checked={rating === value.toString()}
-                  onChange={handleRatingChange}
-                />
-                <label className="rating__label" htmlFor={`star-${value}`}>
-                  Rating {value}
-                </label>
-              </React.Fragment>
-            ))}
+            {ratingInputs}
           </div>
         </div>
-
         <div className="add-review__text">
           <textarea
             className="add-review__textarea"

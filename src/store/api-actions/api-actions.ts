@@ -11,7 +11,7 @@ import { TReview } from '../../types/review.ts';
 export const getAuthorizationStatus = createAsyncThunk(
   'user/getAuthorizationStatus',
   async () => {
-    const {data} = await axiosInstance.get('/login');
+    const { data } = await axiosInstance.get('/login');
     return data;
   },
 );
@@ -168,8 +168,6 @@ export const setFavorite = createAsyncThunk<TFilm, { status: boolean; filmId: st
     }
   }
 );
-
-
 
 export const addReview = createAsyncThunk<
   void,

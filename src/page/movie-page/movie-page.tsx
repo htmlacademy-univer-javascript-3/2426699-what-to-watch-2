@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { UserBlock } from '../../components/user-block/user-block.tsx';
 import Buttons from '../../components/buttons/buttons.tsx';
@@ -11,15 +11,14 @@ import { LikeThis } from '../../components/like-this/like-this.tsx';
 import NotFoundPage from '../not-found/not-found.tsx';
 import Spinner from '../../components/spinner/spinner.tsx';
 import { useAppSelector, useAppDispatch } from '../../hooks/stores.ts';
-import { useEffect } from 'react';
+
 import { fetchFilm, fetchSimilar, fetchReviews } from '../../store/api-actions/api-actions.ts';
 
 import { authorizationStatusData } from '../../store/auth/auth-selectors.ts';
 import {
   selectFilmData, selectFilmError,
   selectFilmStatus
-}  from '../../store/films/film-selectors.ts';
-
+} from '../../store/films/film-selectors.ts';
 
 export const MoviePage: FC = () => {
   const { id = '' } = useParams();
@@ -39,8 +38,7 @@ export const MoviePage: FC = () => {
     }
   }, [id, dispatch]);
 
-
-  const tabs: ITab[] = [
+  const tabs: ITab[] = useMemo(() => [
     {
       label: 'Overview',
       component: <Overview />
@@ -53,21 +51,20 @@ export const MoviePage: FC = () => {
       label: 'Reviews',
       component: <Reviews />
     }
-  ];
-
+  ], []);
 
   if (!film || filmStatus === 'LOADING') {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   if (filmError) {
-    return <NotFoundPage/>;
+    return <NotFoundPage />;
   }
 
   return (
     <>
       <section className="film-card film-card--full"
-      style={{ backgroundColor: film.backgroundColor }}>
+        style={{ backgroundColor: film.backgroundColor }}>
         <div className="film-card__hero">
           <div className="film-card__bg">
             <img
@@ -78,8 +75,8 @@ export const MoviePage: FC = () => {
 
           <h1 className="visually-hidden">WTW</h1>
 
-            <UserBlock />
-          
+          <UserBlock />
+
           <div className="film-card__wrap">
             <div className="film-card__desc">
               <h2 className="film-card__title">{film.name}</h2>
@@ -91,12 +88,12 @@ export const MoviePage: FC = () => {
               </p>
 
               <div className="film-card__buttons">
-                <Buttons.Play filmId={film.id}/>
-                
-                   <Buttons.MyListButton  filmId={film.id} isFavorite={film.isFavorite}/>
-                  
+                <Buttons.Play filmId={film.id} />
+
+                <Buttons.MyListButton filmId={film.id} isFavorite={film.isFavorite} />
+
                 {
-                  isAuth && <Buttons.AddReview filmId={id}/>
+                  isAuth && <Buttons.AddReview filmId={id} />
                 }
               </div>
             </div>
@@ -120,7 +117,7 @@ export const MoviePage: FC = () => {
         </div>
       </section>
 
-      <LikeThis genre={film.genre}/>
+      <LikeThis genre={film.genre} />
     </>
   );
 };

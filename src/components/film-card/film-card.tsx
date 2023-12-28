@@ -1,16 +1,17 @@
-import { Link } from 'react-router-dom';
 import Buttons from '../buttons/buttons.tsx';
 import { UserBlock } from '../user-block/user-block.tsx';
 import { FC } from 'react';
 import { TFilm } from '../../types/film.ts';
-import Logo from '../logo/logo.tsx';
+import { useMemo } from 'react';
 
 interface IFilmCardProps {
   film: TFilm;
 }
 
 export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
-  const { backgroundImage, name, genre, id, posterImage, released, isFavorite } = film;
+  const memoizedFilm = useMemo(() => film, [film]);
+
+  const { backgroundImage, name, genre, id, posterImage, released, isFavorite } = memoizedFilm;
 
   return (
     <section className="film-card">
@@ -18,8 +19,8 @@ export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
         <img src={backgroundImage} alt={name} />
       </div>
       <h1 className="visually-hidden">WTW</h1>
-        
-        <UserBlock />
+
+      <UserBlock />
       <div className="film-card__wrap">
         <div className="film-card__info">
           <div className="film-card__poster">
@@ -33,7 +34,7 @@ export const FilmCard: FC<IFilmCardProps> = ({ film }) => {
             </p>
             <div className="film-card__buttons">
               <Buttons.Play filmId={film.id} />
-              <Buttons.MyListButton filmId={id} isFavorite={isFavorite}/>
+              <Buttons.MyListButton filmId={id} isFavorite={isFavorite} />
             </div>
           </div>
         </div>

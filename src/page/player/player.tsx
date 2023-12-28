@@ -1,14 +1,14 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useRef, useState, useMemo } from 'react';
 import NotFoundPage from '../not-found/not-found.tsx';
 import { useAppSelector } from '../../hooks/stores.ts';
 import { selectFilmsData, selectFilmsError, selectFilmsStatus, selectFilmData } from '../../store/films/film-selectors.ts';
 import Spinner from '../../components/spinner/spinner.tsx';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCallback } from 'react';
-import { useMemo } from 'react';
 import { useAppDispatch } from '../../hooks/stores.ts';
 import { fetchFilm } from '../../store/api-actions/api-actions.ts';
 import { useEffect } from 'react';
+
 export const Player: FC = () => {
   const { id = '' } = useParams();
 
@@ -17,8 +17,6 @@ export const Player: FC = () => {
   const filmsStatus = useAppSelector(selectFilmsStatus);
   const film = useAppSelector(selectFilmData);
 
-
-
   if (filmsError || !film) {
     return <NotFoundPage />;
   }
@@ -26,18 +24,15 @@ export const Player: FC = () => {
   if (!films || filmsStatus === 'LOADING') {
     return <Spinner />;
   }
+
   const navigate = useNavigate();
-  const exitPlayer = useCallback(
-    () => id && navigate(`/films/${film.id}`),
-    [id, navigate]
-  );
+  const exitPlayer = useCallback(() => id && navigate(`/films/${film.id}`), [id, navigate]);
 
   const dispatch = useAppDispatch();
 
   if (id && id !== film?.id) {
     dispatch(fetchFilm(id));
   }
-
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const togglerRef = useRef<HTMLDivElement>(null);
@@ -51,42 +46,27 @@ export const Player: FC = () => {
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-
     document.removeEventListener('mouseup', handleMouseUp);
   }, []);
 
   const handleTogglerMouseDown = useCallback(() => {
     setIsDragging(true);
-
     if (videoRef.current) {
-      videoRef.current.currentTime =
-        (togglerPosition / 100) * videoRef.current.duration;
+      videoRef.current.currentTime = (togglerPosition / 100) * videoRef.current.duration;
     }
-
     document.addEventListener('mouseup', handleMouseUp);
   }, [handleMouseUp, togglerPosition]);
 
-  const handleMouseMove = useCallback(
-    (e: MouseEvent) => {
-      if (
-        isDragging &&
-        progressRef.current &&
-        togglerRef.current &&
-        videoRef.current
-      ) {
-        const videoWidth = progressRef.current.clientWidth;
-        const mouseX =
-          e.clientX - progressRef.current.getBoundingClientRect().left;
-        const newTime = (mouseX / videoWidth) * videoRef.current.duration;
-
-        const newTogglerPosition = (newTime / videoRef.current.duration) * 100;
-        setTogglerPosition(newTogglerPosition);
-
-        togglerRef.current.style.left = `${newTogglerPosition}%`;
-      }
-    },
-    [isDragging]
-  );
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (isDragging && progressRef.current && togglerRef.current && videoRef.current) {
+      const videoWidth = progressRef.current.clientWidth;
+      const mouseX = e.clientX - progressRef.current.getBoundingClientRect().left;
+      const newTime = (mouseX / videoWidth) * videoRef.current.duration;
+      const newTogglerPosition = (newTime / videoRef.current.duration) * 100;
+      setTogglerPosition(newTogglerPosition);
+      togglerRef.current.style.left = `${newTogglerPosition}%`;
+    }
+  }, [isDragging]);
 
   useEffect(() => {
     if (isDragging) {
@@ -113,10 +93,7 @@ export const Player: FC = () => {
     };
 
     const handleTimeUpdate = () => {
-      setTime((prevTime) => ({
-        ...prevTime,
-        current: videoElement.currentTime,
-      }));
+      setTime((prevTime) => ({ ...prevTime, current: videoElement.currentTime }));
     };
 
     videoElement.addEventListener('loadedmetadata', handleLoadedMetadata);
@@ -124,10 +101,7 @@ export const Player: FC = () => {
 
     return () => {
       if (videoElement) {
-        videoElement.removeEventListener(
-          'loadedmetadata',
-          handleLoadedMetadata
-        );
+        videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
         videoElement.removeEventListener('timeupdate', handleTimeUpdate);
       }
     };
@@ -149,9 +123,11 @@ export const Player: FC = () => {
       videoRef.current.requestFullscreen();
     }
   }, []);
+
   const SECONDS_IN_HOUR = 3600;
   const SECONDS_IN_MINUTE = 60;
-  const formatTime = (timeInSeconds: number) => {
+
+  const formatTime = useMemo(() => (timeInSeconds: number) => {
     const hours = Math.floor(timeInSeconds / SECONDS_IN_HOUR);
     const minutes = Math.floor((timeInSeconds % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE);
     const seconds = Math.floor(timeInSeconds % SECONDS_IN_MINUTE);
@@ -161,7 +137,7 @@ export const Player: FC = () => {
     const formattedSeconds = String(seconds).padStart(2, '0');
 
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-  };
+  }, []);
 
   return (
     <div className="player">
@@ -202,8 +178,11 @@ export const Player: FC = () => {
         </div>
 
         <div className="player__controls-row">
-          <button type="button" data-testid="play-button"
-            className="player__play" onClick={togglePlay}
+          <button
+            type="button"
+            data-testid="play-button"
+            className="player__play"
+            onClick={togglePlay}
           >
             {isPlaying ? (
               <svg viewBox="0 0 19 19" width="19" height="19">

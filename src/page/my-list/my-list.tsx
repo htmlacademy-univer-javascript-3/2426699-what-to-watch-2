@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import Footer from '../../components/footer/footer.tsx';
 import NotFoundPage from '../not-found/not-found.tsx';
 import Spinner from '../../components/spinner/spinner.tsx';
@@ -14,10 +14,8 @@ export const MyList: FC = () => {
   const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
   const dispatch = useAppDispatch();
-  
-  
-const favoriteFilms = useAppSelector(myFavoriteFilms);
-  
+
+  const favoriteFilms = useAppSelector(myFavoriteFilms);
 
   if (filmsError) {
     return <NotFoundPage />;
@@ -26,6 +24,7 @@ const favoriteFilms = useAppSelector(myFavoriteFilms);
   if (!films || filmsStatus === 'LOADING') {
     return <Spinner />;
   }
+
   useEffect(() => {
     let isMounted = true;
 
@@ -37,19 +36,20 @@ const favoriteFilms = useAppSelector(myFavoriteFilms);
       isMounted = false;
     };
   }, [dispatch]);
+
+  const memoizedFavoriteFilms = useMemo(() => favoriteFilms, [favoriteFilms]);
+
   return (
     <div className="user-page">
-
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
         <UserBlock className="user-page__head">
           <h1 className="page-title user-page__title">
-            My list <span data-testid="favorite-count" className="user-page__film-count">{favoriteFilms.length}</span>
+            My list <span data-testid="favorite-count" className="user-page__film-count">{memoizedFavoriteFilms.length}</span>
           </h1>
         </UserBlock>
-        <Catalog withGenres={false} films={favoriteFilms}/>
+        <Catalog withGenres={false} films={memoizedFavoriteFilms} />
       </section>
-
       <Footer />
     </div>
   );

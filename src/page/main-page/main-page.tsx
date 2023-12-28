@@ -1,15 +1,16 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import Footer from '../../components/footer/footer.tsx';
 import { FilmCard } from '../../components/film-card/film-card.tsx';
 import { Catalog } from '../../components/catalog/catalog.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/stores.ts';
 import Spinner from '../../components/spinner/spinner.tsx';
 import NotFoundPage from '../not-found/not-found.tsx';
-import { 
+import {
   selectFilmData,
   selectFilmsData,
   selectFilmsError,
-  selectFilmsStatus } from '../../store/films/film-selectors.ts';
+  selectFilmsStatus
+} from '../../store/films/film-selectors.ts';
 import { fetchMovies, fetchPromo } from '../../store/api-actions/api-actions.ts';
 
 export const Main: FC = () => {
@@ -26,22 +27,26 @@ export const Main: FC = () => {
     }
   }, [dispatch, films]);
 
-  if (filmError) {
-    return <NotFoundPage />;
-  }
+  const mainComponent = useMemo(() => {
+    if (filmError) {
+      return <NotFoundPage />;
+    }
 
-  if (!film || filmStatus === 'LOADING') {
-    return <Spinner />;
-  }
+    if (!film || filmStatus === 'LOADING') {
+      return <Spinner />;
+    }
 
-  return (
-    <>
-      <FilmCard film={film} />
+    return (
+      <>
+        <FilmCard film={film} />
 
-      <div className="page-content">
-        <Catalog withGenres films={films}/>
-        <Footer />
-      </div>
-    </>
-  );
+        <div className="page-content">
+          <Catalog withGenres films={films} />
+          <Footer />
+        </div>
+      </>
+    );
+  }, [film, filmError, filmStatus, films]);
+
+  return mainComponent;
 };

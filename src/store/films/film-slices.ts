@@ -92,6 +92,5 @@ export const filmSlice = createSlice({
         state.similar.apiStatus = AuthStatusEnum.NotAuthorized;
         state.similar.apiError = action.error.message || 'error';
       })
-      
   },
 });

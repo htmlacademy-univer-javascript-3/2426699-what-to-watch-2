@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
-import {GenresItem} from '../genres-item/genres-item.tsx';
+import { GenresItem } from '../genres-item/genres-item.tsx';
 import { ECatalog } from '../../types/ECatalog.ts';
 import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/stores.ts';
@@ -21,7 +21,7 @@ interface ICatalogProps {
   withGenres?: boolean;
   films?: TFilm[] | null;
 }
-export const Catalog: FC<ICatalogProps> = ({withGenres, films}) => {
+export const Catalog: FC<ICatalogProps> = ({ withGenres, films }) => {
   const [visibleFilmsCount, setVisibleFilmsCount] = useState(VISIBLE_FILMS_COUNT);
   const activeGenre = useAppSelector(currentGenre);
   const filmsError = useAppSelector(selectFilmsError);
@@ -57,24 +57,24 @@ export const Catalog: FC<ICatalogProps> = ({withGenres, films}) => {
       return filteredFilms?.length - visibleFilmsCount > 0;
     }
     return 0;
-  } , [filteredFilms, visibleFilmsCount]);
+  }, [filteredFilms, visibleFilmsCount]);
 
   if (filmsError) {
-    return <NotFoundPage/>;
+    return <NotFoundPage />;
   }
 
   if (!films || filmsStatus === 'LOADING') {
-    return <Spinner/>;
+    return <Spinner />;
   }
   const genreList = useMemo(() => ['All genres', ...new Set(films.map((film) => film.genre))], [films]);
   return (
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <ul className="catalog__genres-list">
-      {withGenres &&
-  genreList?.map((genre) => (
-    <GenresItem genre={genre} key={genre} setGenre={handleSetGenre} isActive={ activeGenre === genre} />
-  ))}
+        {withGenres &&
+          genreList?.map((genre) => (
+            <GenresItem genre={genre} key={genre} setGenre={handleSetGenre} isActive={activeGenre === genre} />
+          ))}
       </ul>
 
       <div className="catalog__films-list">

@@ -4,4 +4,4 @@ export interface TReview {
   id: number;
   rating: number;
   user: string;
-  }
+}

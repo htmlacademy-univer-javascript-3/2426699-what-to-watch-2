@@ -1,4 +1,4 @@
 export interface FormAddReview {
-    rating: number;
-    text: string;
-  }
+  rating: number;
+  text: string;
+}

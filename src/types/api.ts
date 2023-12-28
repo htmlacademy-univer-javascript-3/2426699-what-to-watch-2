@@ -24,8 +24,8 @@ export interface IAuth {
 
 
 export enum EReducers {
-    Films = 'films',
-    Auth = 'auth',
+  Films = 'films',
+  Auth = 'auth',
 
 }
 

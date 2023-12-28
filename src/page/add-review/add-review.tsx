@@ -1,22 +1,21 @@
-import React, { useLayoutEffect } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import React, { useLayoutEffect, useMemo } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { UserBlock } from '../../components/user-block/user-block';
 import { Poster } from '../../components/poster/poster';
 import { AddReviewForm } from '../../components/add-review-form/add-review-form';
 import { useAppDispatch, useAppSelector } from '../../hooks/stores';
 import Spinner from '../../components/spinner/spinner';
-import { ReducerName } from '../../types/api';
 import { fetchFilm } from '../../store/api-actions/api-actions';
 import NotFoundPage from '../not-found/not-found';
-import { selectFilmData } from '../../store/films/film-selectors';
-import { selectFilmStatus } from '../../store/films/film-selectors';
+import { selectFilmData, selectFilmStatus } from '../../store/films/film-selectors';
 
 const AddReviewPage: React.FC = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  
+
   const film = useAppSelector(selectFilmData);
-const filmStatus = useAppSelector(selectFilmStatus);
+  const filmStatus = useAppSelector(selectFilmStatus);
+
   useLayoutEffect(() => {
     let isMounted = true;
 
@@ -29,13 +28,15 @@ const filmStatus = useAppSelector(selectFilmStatus);
     };
   }, [id, dispatch]);
 
+  const spinnerComponent = useMemo(() => <Spinner />, []);
+  const notFoundPageComponent = useMemo(() => <NotFoundPage />, []);
 
   if (!film || filmStatus === 'LOADING') {
-    return <Spinner/>;
+    return spinnerComponent;
   }
 
   if (!id) {
-      return <NotFoundPage/>;
+    return notFoundPageComponent;
   }
 
   return film ? (
@@ -70,7 +71,8 @@ const filmStatus = useAppSelector(selectFilmStatus);
       <AddReviewForm filmId={film.id} />
     </section>
   ) : (
-    <NotFoundPage />
+    notFoundPageComponent
   );
 };
+
 export const AddReview = React.memo(AddReviewPage);

@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ReducerName } from '../../types/api';
 import { MainReducerState } from '../../types/main-reducer-state';
-import { login, setFavorite } from '../api-actions/api-actions';
-import { 
+import { setFavorite } from '../api-actions/api-actions';
+import {
   fetchFavoriteFilms,
-  fetchPromo,
-  logout
- } from '../api-actions/api-actions';
+  fetchPromo
+} from '../api-actions/api-actions';
 
 const initialState: MainReducerState = {
   film: null,
@@ -21,7 +20,7 @@ export const mainReducer = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-    
+
       .addCase(fetchFavoriteFilms.fulfilled, (state, action) => {
         state.favoriteFilms = action.payload;
         state.favoriteCount = action.payload.length;
@@ -32,21 +31,12 @@ export const mainReducer = createSlice({
       })
 
       .addCase(setFavorite.fulfilled, (state, action) => {
-        if (state.promo && action.payload.id === state.promo.id) {
-          state.promo = action.payload;
-        }
+        state.favoriteFilms = action.payload.isFavorite ? [...state.favoriteFilms, action.payload] : state.favoriteFilms.filter(film => film.id !== action.payload.id);
         state.favoriteCount += action.payload.isFavorite ? 1 : -1;
       })
       .addCase(fetchPromo.fulfilled, (state, action) => {
         state.promo = action.payload;
       })
-      .addCase(logout.fulfilled, (state) => {
-        state.favoriteFilms = [];
-        state.favoriteCount = 0;
-      })
-      .addCase(login.fulfilled, (state) => {
-        state.favoriteFilms = [];
-        state.favoriteCount = 0;
-      })
+
   },
 });
