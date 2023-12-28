@@ -8,7 +8,6 @@ import NotFoundPage from '../../page/not-found/not-found.tsx';
 import Spinner from '../spinner/spinner.tsx';
 import {
   currentGenre,
-  selectFilmsData,
   selectFilmsError,
   selectFilmsStatus
 } from '../../store/films/film-selectors.ts';
@@ -25,7 +24,6 @@ interface ICatalogProps {
 export const Catalog: FC<ICatalogProps> = ({withGenres, films}) => {
   const [visibleFilmsCount, setVisibleFilmsCount] = useState(VISIBLE_FILMS_COUNT);
   const activeGenre = useAppSelector(currentGenre);
-  //const films = useAppSelector(selectFilmsData);
   const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
   const dispatch = useAppDispatch();
@@ -92,6 +90,6 @@ export const Catalog: FC<ICatalogProps> = ({withGenres, films}) => {
           </button>
         </div>
       )}
-    </section>//
+    </section>
   );
 };
