@@ -91,6 +91,6 @@ export const filmSlice = createSlice({
       .addCase(fetchSimilar.rejected, (state, action) => {
         state.similar.apiStatus = AuthStatusEnum.NotAuthorized;
         state.similar.apiError = action.error.message || 'error';
-      });
+      })
   },
 });

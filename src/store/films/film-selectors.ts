@@ -1,6 +1,5 @@
 import { RootState } from "../index";
 
-
 export const selectFilms = (state: RootState) => state.reducer.films;
 export const selectFilmsData = (state: RootState) => selectFilms(state).films.apiData;
 export const selectFilmsStatus = (state: RootState) => selectFilms(state).films.apiStatus;

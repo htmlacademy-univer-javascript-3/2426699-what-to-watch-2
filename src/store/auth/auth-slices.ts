@@ -4,12 +4,10 @@ import { AuthStatusEnum, ApiStatusState, EReducers, initialApiState } from '../.
 import { TUser } from '../../types/user.ts';
 import { dropToken, saveToken } from '../../services/token.ts';
 
-
 export interface IAuthState {
   authorizationStatus: ApiStatusState<boolean>;
   user: ApiStatusState<TUser>;
-  
-  
+
 }
 
 const initialState: IAuthState = {
@@ -34,8 +32,6 @@ export const authSlice = createSlice({
       .addCase(getAuthorizationStatus.rejected, (state) => {
         state.authorizationStatus.apiStatus = AuthStatusEnum.NotAuthorized;
       })
-
-
       .addCase(login.pending, (state) => {
         state.user.apiStatus = AuthStatusEnum.LOADING;
       })

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { SmallFilmCard } from '../small-film-card/small-film-card.tsx';
 import Footer from '../footer/footer.tsx';
 import { useAppSelector } from '../../hooks/stores.ts';
@@ -11,24 +11,24 @@ import Spinner from '../spinner/spinner.tsx';
 interface ILikeThisProps {
   genre?: string;
 }
-export const LikeThis: FC<ILikeThisProps> = ({ genre}) => {
 
-
+export const LikeThis: FC<ILikeThisProps> = ({ genre }) => {
   const similar = useAppSelector(selectSimilarData);
   const similarStatus = useAppSelector(selectSimilarStatus);
   const similarError = useAppSelector(selectSimilarError);
 
-
-  const filmLikeThis = similar?.filter((film) => film.genre === genre).slice(0, 4);
-
+  const filmLikeThis = useMemo(() => {
+    return similar?.filter((film) => film.genre === genre).slice(0, 4);
+  }, [similar, genre]);
 
   if (similarError) {
-    return <NotFoundPage/>;
+    return <NotFoundPage />;
   }
 
   if (!similar || similarStatus === 'LOADING') {
-    return <Spinner/>;
+    return <Spinner />;
   }
+
   return (
     <div className="page-content">
       <section className="catalog catalog--like-this">

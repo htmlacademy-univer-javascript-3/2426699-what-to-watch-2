@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface SpinnerProps {
   size?: number;
@@ -6,14 +6,14 @@ interface SpinnerProps {
 }
 
 const Spinner: React.FC<SpinnerProps> = ({ size = 50, color = '#000000' }) => {
-  const spinnerStyle: React.CSSProperties = {
+  const spinnerStyle = useMemo(() => ({
     width: size,
     height: size,
     borderTop: `4px solid ${color}`,
     borderRight: '4px solid transparent',
     borderRadius: '50%',
     animation: 'spin 1s linear infinite',
-  };
+  }), [size, color]);
 
   return (
     <div

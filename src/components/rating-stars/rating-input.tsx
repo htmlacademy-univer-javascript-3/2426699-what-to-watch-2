@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { Control, useWatch } from 'react-hook-form';
 import { FormAddReview } from '../../types/form-add-review.ts';
 
@@ -7,11 +7,10 @@ interface IRatingInputProps {
   onChangeRating: (value: number) => void;
   control: Control<FormAddReview>;
 }
+
 export const RatingInput: FC<IRatingInputProps> = ({
   rating, onChangeRating, control
 }) => {
-
-
   const watchRating = useWatch({
     control,
     name: 'rating',
@@ -20,6 +19,8 @@ export const RatingInput: FC<IRatingInputProps> = ({
   const setRatingValue = useCallback((value: React.ChangeEvent<HTMLInputElement>) => {
     onChangeRating(Number(value.target.value));
   }, [onChangeRating]);
+
+  const memoizedWatchRating = useMemo(() => watchRating, [watchRating]);
 
   return (
     <>
@@ -30,7 +31,7 @@ export const RatingInput: FC<IRatingInputProps> = ({
         name="rating"
         value={rating}
         onChange={setRatingValue}
-        checked={watchRating === rating}
+        checked={memoizedWatchRating === rating}
       />
       <label className="rating__label" htmlFor={`star-${rating}`}>
         Rating {rating}

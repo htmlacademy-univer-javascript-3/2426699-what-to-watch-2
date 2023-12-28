@@ -1,10 +1,15 @@
 import { Link } from 'react-router-dom';
-import { FC } from 'react';
+import { FC, memo } from 'react';
+
 interface PlayerProps {
   filmId: string;
 }
-export const Play: FC<PlayerProps> = ({ filmId }) => {
 
+const arePropsEqual = (prevProps: PlayerProps, nextProps: PlayerProps) => {
+  return prevProps.filmId === nextProps.filmId;
+};
+
+export const Play: FC<PlayerProps> = memo(({ filmId }) => {
   return (
     <Link to={`/player/${filmId}`} className="btn btn--play film-card__button" type="button">
       <svg viewBox="0 0 19 19">
@@ -13,4 +18,4 @@ export const Play: FC<PlayerProps> = ({ filmId }) => {
       <span>Play</span>
     </Link>
   );
-};
+}, arePropsEqual);
