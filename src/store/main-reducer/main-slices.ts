@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ReducerName } from '../../types/api';
 import { MainReducerState } from '../../types/main-reducer-state';
-import { setFavorite } from '../api-actions/api-actions';
+import { logout, setFavorite } from '../api-actions/api-actions';
 import {
   fetchFavoriteFilms,
   fetchPromo
@@ -37,6 +37,10 @@ export const mainReducer = createSlice({
       .addCase(fetchPromo.fulfilled, (state, action) => {
         state.promo = action.payload;
       })
-
+      .addCase(logout.fulfilled, (state) => {
+        state.favoriteFilms = [];
+        state.favoriteCount = 0;
+      })
+      
   },
 });
