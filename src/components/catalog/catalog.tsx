@@ -13,17 +13,19 @@ import {
   selectFilmsStatus
 } from '../../store/films/film-selectors.ts';
 import { fetchMovies } from '../../store/api-actions/api-actions.ts';
+import { TFilm } from '../../types/film.ts';
 
 
 const VISIBLE_FILMS_COUNT = 8;
 
 interface ICatalogProps {
   withGenres?: boolean;
+  films?: TFilm[] | null;
 }
-export const Catalog: FC<ICatalogProps> = ({withGenres}) => {
+export const Catalog: FC<ICatalogProps> = ({withGenres, films}) => {
   const [visibleFilmsCount, setVisibleFilmsCount] = useState(VISIBLE_FILMS_COUNT);
   const activeGenre = useAppSelector(currentGenre);
-  const films = useAppSelector(selectFilmsData);
+  //const films = useAppSelector(selectFilmsData);
   const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
   const dispatch = useAppDispatch();
@@ -90,6 +92,6 @@ export const Catalog: FC<ICatalogProps> = ({withGenres}) => {
           </button>
         </div>
       )}
-    </section>
+    </section>//
   );
 };

@@ -47,7 +47,7 @@ const favoriteFilms = useAppSelector(myFavoriteFilms);
             My list <span data-testid="favorite-count" className="user-page__film-count">{favoriteFilms.length}</span>
           </h1>
         </UserBlock>
-        <Catalog withGenres={false} film={favoriteFilms}/>
+        <Catalog withGenres={false} films={favoriteFilms}/>
       </section>
 
       <Footer />

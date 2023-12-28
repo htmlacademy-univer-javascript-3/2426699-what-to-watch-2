@@ -39,7 +39,7 @@ export const Main: FC = () => {
       <FilmCard film={film} />
 
       <div className="page-content">
-        <Catalog withGenres/>
+        <Catalog withGenres films={films}/>
         <Footer />
       </div>
     </>
