@@ -23,7 +23,7 @@ export const MyListButton: React.FC<IMyListButtonProps> = React.memo(({ filmId }
 
     user ?
       dispatch(setFavorite({ status: !isFavoriteFilm, filmId: filmId.toString() })) :
-      navigate("/login");
+      navigate('/login');
   };
 
   return (

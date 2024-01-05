@@ -64,7 +64,8 @@ export const MoviePage: FC = () => {
   return (
     <>
       <section className="film-card film-card--full"
-        style={{ backgroundColor: film.backgroundColor }}>
+        style={{ backgroundColor: film.backgroundColor }}
+      >
         <div className="film-card__hero">
           <div className="film-card__bg">
             <img

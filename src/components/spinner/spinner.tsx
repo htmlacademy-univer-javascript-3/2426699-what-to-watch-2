@@ -22,7 +22,8 @@ const Spinner: React.FC<SpinnerProps> = ({ size = 50, color = '#000000' }) => {
         position: 'relative',
         ...spinnerStyle,
       }}
-    ></div>
+    >
+    </div>
   );
 };
 

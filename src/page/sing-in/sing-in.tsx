@@ -92,7 +92,7 @@ const SignInPage: React.FC = () => {
   const pageTitle = useMemo(() => <h1 className="page-title user-page__title">Sign in</h1>, []);
 
   if (authStatus === AuthStatusEnum.Authorized) {
-    return <Navigate to='/' />
+    return <Navigate to='/' />;
   }
 
   return (

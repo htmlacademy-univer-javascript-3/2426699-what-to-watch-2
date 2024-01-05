@@ -166,7 +166,7 @@ export const Player: FC = () => {
               className="player__toggler"
               style={{
                 left: `${togglerPosition > progress ? togglerPosition : progress
-                  }%`,
+                }%`,
               }}
               ref={togglerRef}
               onMouseDown={handleTogglerMouseDown}

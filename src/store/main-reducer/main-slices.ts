@@ -31,7 +31,7 @@ export const mainReducer = createSlice({
       })
 
       .addCase(setFavorite.fulfilled, (state, action) => {
-        state.favoriteFilms = action.payload.isFavorite ? [...state.favoriteFilms, action.payload] : state.favoriteFilms.filter(film => film.id !== action.payload.id);
+        state.favoriteFilms = action.payload.isFavorite ? [...state.favoriteFilms, action.payload] : state.favoriteFilms.filter((film) => film.id !== action.payload.id);
         state.favoriteCount += action.payload.isFavorite ? 1 : -1;
       })
       .addCase(fetchPromo.fulfilled, (state, action) => {
@@ -40,7 +40,7 @@ export const mainReducer = createSlice({
       .addCase(logout.fulfilled, (state) => {
         state.favoriteFilms = [];
         state.favoriteCount = 0;
-      })
-      
+      });
+
   },
 });
