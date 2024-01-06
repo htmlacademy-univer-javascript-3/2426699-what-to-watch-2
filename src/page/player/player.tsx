@@ -1,52 +1,39 @@
-import { FC, useRef, useState, useMemo } from 'react';
+import { FC, useRef, useState, useMemo, useCallback, useEffect } from 'react';
 import NotFoundPage from '../not-found/not-found.tsx';
-import { useAppSelector } from '../../hooks/stores.ts';
-import { selectFilmsData, selectFilmsError, selectFilmsStatus, selectFilmData } from '../../store/films/film-selectors.ts';
+import { useAppSelector, useAppDispatch } from '../../hooks/stores.ts';
+import {
+  selectFilmsData,
+  selectFilmsError,
+  selectFilmsStatus,
+  selectFilmData,
+} from '../../store/films/film-selectors.ts';
 import Spinner from '../../components/spinner/spinner.tsx';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useCallback } from 'react';
-import { useAppDispatch } from '../../hooks/stores.ts';
 import { fetchFilm } from '../../store/api-actions/api-actions.ts';
-import { useEffect } from 'react';
 
 export const Player: FC = () => {
   const { id = '' } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const films = useAppSelector(selectFilmsData);
   const filmsError = useAppSelector(selectFilmsError);
   const filmsStatus = useAppSelector(selectFilmsStatus);
   const film = useAppSelector(selectFilmData);
 
-  if (filmsError || !film) {
-    return <NotFoundPage />;
-  }
-
-  if (!films || filmsStatus === 'LOADING') {
-    return <Spinner />;
-  }
-
-  const navigate = useNavigate();
-  const exitPlayer = useCallback(() => id && navigate(`/films/${film.id}`), [id, navigate]);
-
-  const dispatch = useAppDispatch();
-
-  if (id && id !== film?.id) {
-    dispatch(fetchFilm(id));
-  }
-
+  const exitPlayer = useCallback(() => id && navigate(`/films/${film?.id || ''}`), [id, navigate, film]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const togglerRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLProgressElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [time, setTime] = useState({ current: 0, duration: 0 });
+  const [togglerPosition, setTogglerPosition] = useState(0);
 
   const progress = useMemo(() => (time.current / time.duration) * 100, [time]);
-  const [togglerPosition, setTogglerPosition] = useState(0);
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-    document.removeEventListener('mouseup', handleMouseUp);
   }, []);
 
   const handleTogglerMouseDown = useCallback(() => {
@@ -57,29 +44,40 @@ export const Player: FC = () => {
     document.addEventListener('mouseup', handleMouseUp);
   }, [handleMouseUp, togglerPosition]);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (isDragging && progressRef.current && togglerRef.current && videoRef.current) {
-      const videoWidth = progressRef.current.clientWidth;
-      const mouseX = e.clientX - progressRef.current.getBoundingClientRect().left;
-      const newTime = (mouseX / videoWidth) * videoRef.current.duration;
-      const newTogglerPosition = (newTime / videoRef.current.duration) * 100;
-      setTogglerPosition(newTogglerPosition);
-      togglerRef.current.style.left = `${newTogglerPosition}%`;
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (isDragging && progressRef.current && togglerRef.current && videoRef.current) {
+        const videoWidth = progressRef.current.clientWidth;
+        const mouseX = e.clientX - progressRef.current.getBoundingClientRect().left;
+        const newTime = (mouseX / videoWidth) * videoRef.current.duration;
+        const newTogglerPosition = (newTime / videoRef.current.duration) * 100;
+        setTogglerPosition(newTogglerPosition);
+        togglerRef.current.style.left = `${newTogglerPosition}%`;
+      }
+    },
+    [isDragging]
+  );
+
+  useEffect(() => {
+    if (id && id !== film?.id) {
+      dispatch(fetchFilm(id));
     }
-  }, [isDragging]);
+  }, [id, film?.id, dispatch]);
 
   useEffect(() => {
     if (isDragging) {
       document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
     } else {
       document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
     }
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [handleMouseMove, handleMouseUp, isDragging]);
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   useEffect(() => {
     if (!videoRef.current) {
@@ -100,10 +98,8 @@ export const Player: FC = () => {
     videoElement.addEventListener('timeupdate', handleTimeUpdate);
 
     return () => {
-      if (videoElement) {
-        videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
-        videoElement.removeEventListener('timeupdate', handleTimeUpdate);
-      }
+      videoElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      videoElement.removeEventListener('timeupdate', handleTimeUpdate);
     };
   }, []);
 
@@ -127,17 +123,28 @@ export const Player: FC = () => {
   const SECONDS_IN_HOUR = 3600;
   const SECONDS_IN_MINUTE = 60;
 
-  const formatTime = useMemo(() => (timeInSeconds: number) => {
-    const hours = Math.floor(timeInSeconds / SECONDS_IN_HOUR);
-    const minutes = Math.floor((timeInSeconds % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE);
-    const seconds = Math.floor(timeInSeconds % SECONDS_IN_MINUTE);
+  const formatTime = useMemo(
+    () => (timeInSeconds: number) => {
+      const hours = Math.floor(timeInSeconds / SECONDS_IN_HOUR);
+      const minutes = Math.floor((timeInSeconds % SECONDS_IN_HOUR) / SECONDS_IN_MINUTE);
+      const seconds = Math.floor(timeInSeconds % SECONDS_IN_MINUTE);
 
-    const formattedHours = String(hours).padStart(2, '0');
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
+      const formattedHours = String(hours).padStart(2, '0');
+      const formattedMinutes = String(minutes).padStart(2, '0');
+      const formattedSeconds = String(seconds).padStart(2, '0');
 
-    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-  }, []);
+      return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+    },
+    []
+  );
+
+  if (filmsError || !film) {
+    return <NotFoundPage />;
+  }
+
+  if (!films || filmsStatus === 'LOADING') {
+    return <Spinner />;
+  }
 
   return (
     <div className="player">
@@ -165,8 +172,7 @@ export const Player: FC = () => {
             <div
               className="player__toggler"
               style={{
-                left: `${togglerPosition > progress ? togglerPosition : progress
-                }%`,
+                left: `${togglerPosition > progress ? togglerPosition : progress}%`,
               }}
               ref={togglerRef}
               onMouseDown={handleTogglerMouseDown}

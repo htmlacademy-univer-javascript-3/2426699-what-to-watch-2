@@ -1,33 +1,39 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosResponse } from 'axios';
 import { RootState } from '../index/index.ts';
-import axios, { AxiosResponse } from 'axios';
+import { axiosInstance } from '../../services/api.ts';
 import { TUser } from '../../types/user.ts';
 import { TFilm } from '../../types/film.ts';
-import { axiosInstance } from '../../services/api.ts';
 import { IAuth } from '../../types/api.ts';
 import { TReview } from '../../types/review.ts';
+import axios from 'axios';
 
-
-export const getAuthorizationStatus = createAsyncThunk(
+export const getAuthorizationStatus = createAsyncThunk<void, void>(
   'user/getAuthorizationStatus',
   async () => {
-    const { data } = await axiosInstance.get('/login');
-    return data;
+    try {
+      const response: AxiosResponse<void> = await axiosInstance.get('/login');
+      return response.data;
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        throw e;
+      } else {
+        throw new Error('error');
+      }
+    }
   },
 );
 
-export const login = createAsyncThunk<TUser, IAuth, {
-  state: RootState;
-}>(
+export const login = createAsyncThunk<TUser, IAuth, { state: RootState }>(
   'user/login',
-  async ({ email, password }) => {
+  async ({ email, password }, { rejectWithValue }) => {
     try {
-      const { data } = await axiosInstance.post<TUser>('/login', { email, password });
-      return data;
+      const response = await axiosInstance.post<TUser>('/login', { email, password });
+      return response.data;
     } catch (e) {
       if (axios.isAxiosError(e)) {
         if (e.response?.status === 401) {
-          throw new Error('error 401');
+          return rejectWithValue('error 401');
         }
         throw e;
       } else {
@@ -36,6 +42,7 @@ export const login = createAsyncThunk<TUser, IAuth, {
     }
   },
 );
+
 
 export const logout = createAsyncThunk(
   'user/logout',
@@ -53,9 +60,8 @@ export const logout = createAsyncThunk(
   },
 );
 
-
-export const fetchMovies = createAsyncThunk(
-  'reducer/fetchMovies',
+export const fetchMovies = createAsyncThunk<TFilm[], void, { state: RootState }>(
+  'movies/fetchMovies',
   async () => {
     try {
       const response: AxiosResponse<TFilm[]> = await axiosInstance.get('/films');
@@ -69,7 +75,6 @@ export const fetchMovies = createAsyncThunk(
     }
   }
 );
-
 
 export const fetchFilm = createAsyncThunk(
   'films/fetchFilm',
@@ -169,32 +174,33 @@ export const setFavorite = createAsyncThunk<TFilm, { status: boolean; filmId: st
   }
 );
 
-export const addReview = createAsyncThunk<
-  void,
-  { comment: string; rating: number; filmId: string }>(
-    'reviews/addReview',
-    async ({ comment, rating, filmId }) => {
-      try {
-        await axiosInstance.post(`/comments/${filmId}`, { comment, rating });
-      } catch (e) {
-        if (axios.isAxiosError(e)) {
-          throw e;
-        } else {
-          throw new Error('error');
-        }
+export const addReview = createAsyncThunk<void, { comment: string; rating: number; filmId: string }>(
+  'reviews/addReview',
+  async ({ comment, rating, filmId }) => {
+    try {
+      await axiosInstance.post(`/comments/${filmId}`, { comment, rating });
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        throw e;
+      } else {
+        throw new Error('error');
       }
     }
-  );
+  }
+);
 
-export const fetchGenres = createAsyncThunk('genres/fetchGenres', async () => {
-  try {
-    const response = await axiosInstance.get('/api/genres');
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      throw error;
-    } else {
-      throw new Error('Error fetching genres');
+export const fetchGenres = createAsyncThunk<string[]>(
+  'genres/fetchGenres',
+  async () => {
+    try {
+      const response: AxiosResponse<string[]> = await axiosInstance.get('/api/genres');
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw error;
+      } else {
+        throw new Error('Error fetching genres');
+      }
     }
   }
-});
+);

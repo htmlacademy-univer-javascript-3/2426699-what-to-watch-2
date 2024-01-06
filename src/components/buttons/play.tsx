@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FC, memo } from 'react';
 
@@ -15,3 +16,9 @@ export const Play: FC<PlayerProps> = memo(({ filmId }) => (
     <span>Play</span>
   </Link>
 ), arePropsEqual);
+
+Play.propTypes = {
+  filmId: PropTypes.string.isRequired,
+};
+
+Play.displayName = 'Play';

@@ -17,6 +17,12 @@ export const MyList: FC = () => {
 
   const favoriteFilms = useAppSelector(myFavoriteFilms);
 
+  useEffect(() => {
+    dispatch(fetchFavoriteFilms());
+  }, [dispatch]);
+
+  const memoizedFavoriteFilms = useMemo(() => favoriteFilms, [favoriteFilms]);
+
   if (filmsError) {
     return <NotFoundPage />;
   }
@@ -24,20 +30,6 @@ export const MyList: FC = () => {
   if (!films || filmsStatus === 'LOADING') {
     return <Spinner />;
   }
-
-  useEffect(() => {
-    let isMounted = true;
-
-    if (isMounted) {
-      dispatch(fetchFavoriteFilms());
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [dispatch]);
-
-  const memoizedFavoriteFilms = useMemo(() => favoriteFilms, [favoriteFilms]);
 
   return (
     <div className="user-page">
