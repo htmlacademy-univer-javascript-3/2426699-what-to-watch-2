@@ -16,7 +16,7 @@ export const RatingInput: FC<IRatingInputProps> = ({
     name: 'rating',
   });
 
-  const setRatingValue = useCallback((value: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRaitingChange = useCallback((value: React.ChangeEvent<HTMLInputElement>) => {
     onChangeRating(Number(value.target.value));
   }, [onChangeRating]);
 
@@ -30,7 +30,7 @@ export const RatingInput: FC<IRatingInputProps> = ({
         type="radio"
         name="rating"
         value={rating}
-        onChange={setRatingValue}
+        onChange={handleRaitingChange}
         checked={memoizedWatchRating === rating}
       />
       <label className="rating__label" htmlFor={`star-${rating}`}>

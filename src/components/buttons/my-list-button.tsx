@@ -1,4 +1,5 @@
 import React, { FormEvent } from 'react';
+import PropTypes from 'prop-types';
 import { useAppSelector } from '../../hooks/stores';
 import { userStatusData } from '../../store/auth/auth-selectors';
 import { countFavoriteFilm, myFavoriteFilms } from '../../store/main-reducer/main-selectors';
@@ -21,9 +22,11 @@ export const MyListButton: React.FC<IMyListButtonProps> = React.memo(({ filmId }
   const handleSetFavorite = (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    user ?
-      dispatch(setFavorite({ status: !isFavoriteFilm, filmId: filmId.toString() })) :
-      navigate("/login");
+    if (user) {
+      dispatch(setFavorite({ status: !isFavoriteFilm, filmId: filmId.toString() }));
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -42,3 +45,9 @@ export const MyListButton: React.FC<IMyListButtonProps> = React.memo(({ filmId }
     </button>
   );
 });
+
+MyListButton.propTypes = {
+  filmId: PropTypes.string.isRequired,
+};
+
+MyListButton.displayName = 'MyListButton';

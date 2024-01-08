@@ -17,9 +17,7 @@ export const LikeThis: FC<ILikeThisProps> = ({ genre }) => {
   const similarStatus = useAppSelector(selectSimilarStatus);
   const similarError = useAppSelector(selectSimilarError);
 
-  const filmLikeThis = useMemo(() => {
-    return similar?.filter((film) => film.genre === genre).slice(0, 4);
-  }, [similar, genre]);
+  const filmLikeThis = useMemo(() => similar?.filter((film) => film.genre === genre).slice(0, 4), [similar, genre]);
 
   if (similarError) {
     return <NotFoundPage />;

@@ -34,7 +34,7 @@ export const Catalog: FC<ICatalogProps> = ({ withGenres, films }) => {
     }
   }, [dispatch, films]);
 
-  const handleSetGenre = useCallback((value: typeof activeGenre) => () => {
+  const handleSetGenre = useCallback((value: string) => () => {
     dispatch(setGenre(value));
     setVisibleFilmsCount(VISIBLE_FILMS_COUNT);
   }, [dispatch]);
@@ -59,6 +59,8 @@ export const Catalog: FC<ICatalogProps> = ({ withGenres, films }) => {
     return 0;
   }, [filteredFilms, visibleFilmsCount]);
 
+  const genreList = useMemo(() => ['All genres', ...new Set(films?.map((film) => film.genre) || [])], [films]);
+
   if (filmsError) {
     return <NotFoundPage />;
   }
@@ -66,14 +68,14 @@ export const Catalog: FC<ICatalogProps> = ({ withGenres, films }) => {
   if (!films || filmsStatus === 'LOADING') {
     return <Spinner />;
   }
-  const genreList = useMemo(() => ['All genres', ...new Set(films.map((film) => film.genre))], [films]);
+
   return (
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <ul className="catalog__genres-list">
         {withGenres &&
           genreList?.map((genre) => (
-            <GenresItem genre={genre} key={genre} setGenre={handleSetGenre} isActive={activeGenre === genre} />
+            <GenresItem genre={genre} key={genre} onGenreChange={handleSetGenre} isActive={activeGenre === genre} />
           ))}
       </ul>
 

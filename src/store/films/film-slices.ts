@@ -6,7 +6,7 @@ import { fetchFilm, fetchMovies, fetchPromo, fetchReviews, fetchSimilar } from '
 import { setGenre } from '../action/action.ts';
 import { TReview } from '../../types/review.ts';
 export interface IFilmsState {
-  genre: ECatalog;
+  genre: string;
   films: ApiStatusState<TFilm[]>;
   film: ApiStatusState<TFilm>;
   reviews: ApiStatusState<TReview[]>;
@@ -91,6 +91,6 @@ export const filmSlice = createSlice({
       .addCase(fetchSimilar.rejected, (state, action) => {
         state.similar.apiStatus = AuthStatusEnum.NotAuthorized;
         state.similar.apiError = action.error.message || 'error';
-      })
+      });
   },
 });
