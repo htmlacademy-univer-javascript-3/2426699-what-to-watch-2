@@ -6,7 +6,7 @@ import { fetchFilm, fetchMovies, fetchPromo, fetchReviews, fetchSimilar } from '
 import { setGenre } from '../action/action.ts';
 import { TReview } from '../../types/review.ts';
 export interface IFilmsState {
-  genre: ECatalog;
+  genre: string;
   films: ApiStatusState<TFilm[]>;
   film: ApiStatusState<TFilm>;
   reviews: ApiStatusState<TReview[]>;
