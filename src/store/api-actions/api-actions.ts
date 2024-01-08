@@ -8,11 +8,11 @@ import { IAuth } from '../../types/api.ts';
 import { TReview } from '../../types/review.ts';
 import axios from 'axios';
 
-export const getAuthorizationStatus = createAsyncThunk<void, void>(
+export const getAuthorizationStatus = createAsyncThunk<TUser, void>(
   'user/getAuthorizationStatus',
   async () => {
     try {
-      const response: AxiosResponse<void> = await axiosInstance.get('/login');
+      const response: AxiosResponse<TUser> = await axiosInstance.get('/login');
       return response.data;
     } catch (e) {
       if (axios.isAxiosError(e)) {
